@@ -1,0 +1,10 @@
+__pycache__/
+.venv/
+venv/
+.ipynb_checkpoints/
+.pytest_cache/
+*.pyc
+.DS_Store
+
+# Generated pipeline output (reproducible via build_feature_table)
+artifacts/feature_table/*.csv

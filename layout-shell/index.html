@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- If you open this HTML from disk (file://), set your running API origin (uvicorn host:port). Ignored when served over http(s). -->
+  <meta name="fs-api-origin" content="http://127.0.0.1:8000">
+  <title>Feature Store Mini System — portfolio demo</title>
+  <!-- Match main site: Poppins weights + Font Awesome 5 (same webfont family as SCSS "\f00c" checks) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <!-- Relative paths: open this file via FastAPI at /layout-shell/index.html (or GET / → redirect) -->
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="demo-content.css">
+</head>
+<body>
+  <div class="shell-outer">
+    <div class="shell-card">
+      <!-- Left: same structure/classes as src/app/_layouts/info-bar/Index.jsx (desktop) -->
+      <div class="art-info-bar">
+        <div class="art-info-bar-frame">
+          <div class="art-info-bar-header">
+            <button type="button" class="art-info-bar-btn" aria-label="Toggle info" aria-expanded="false">
+              <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+            </button>
+          </div>
+
+          <div class="art-header">
+            <div class="art-avatar">
+              <a href="https://vahdetkaratas.com/img/face-1.jpg" class="art-avatar-curtain">
+                <img src="https://vahdetkaratas.com/img/face-1.jpg" alt="Vahdettin Karataş" width="90" height="90">
+                <i class="fas fa-expand" aria-hidden="true"></i>
+              </a>
+              <div class="art-lamp-light">
+                <div class="art-available-lamp"></div>
+              </div>
+            </div>
+            <h5 class="art-name mb-10"><a href="https://vahdetkaratas.com/">Vahdettin Karataş</a></h5>
+            <div class="art-sm-text">Data &amp; Reporting Consultant</div>
+            <div class="art-sm-text art-muted mb-10">Available for 1-2 projects / month</div>
+          </div>
+
+          <div id="scrollbar2" class="art-scroll-frame">
+            <div class="art-table p-15-15">
+              <ul>
+                <li><h6>Location:</h6><span>Prague, Czech Republic</span></li>
+              </ul>
+            </div>
+
+            <div class="art-ls-divider"></div>
+
+            <div class="art-knowledge-block p-30-15">
+              <h6 class="mb-15">Tools &amp; Focus Areas</h6>
+              <ul class="art-knowledge-list p-15-0">
+                <li>Dashboards &amp; reporting</li>
+                <li>Data cleaning &amp; analysis</li>
+                <li>Reporting workflows</li>
+                <li>Data pipelines &amp; ETL</li>
+                <li>ML training → serving patterns</li>
+              </ul>
+            </div>
+
+            <div class="art-knowledge-block p-30-15">
+              <h6 class="mb-15">How I can help</h6>
+              <ul class="art-knowledge-list p-15-0">
+                <li>Client work: dashboards, reports, automation</li>
+                <li>Applied ML &amp; Interactive apps (see menu)</li>
+                <li>Data cleaning &amp; trustworthy spreadsheets</li>
+              </ul>
+            </div>
+
+            <div class="art-knowledge-block p-30-15">
+              <h6 class="mb-15">Recent outcomes</h6>
+              <ul class="art-knowledge-list p-15-0">
+                <li>Weekly reporting time reduced from hours to minutes</li>
+                <li>Cleaner spreadsheets that are easier to maintain</li>
+                <li>Teams get faster answers from their data</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="art-ls-social">
+            <a href="https://github.com/vahdetkaratas" target="_blank" rel="noopener noreferrer" title="Github"><i class="fab fa-github"></i></a>
+            <a href="https://linkedin.com/in/vahdetkaratas" target="_blank" rel="noopener noreferrer" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://www.facebook.com/vakasoft/" target="_blank" rel="noopener noreferrer" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="shell-main-wrap" id="shellMainWrap">
+        <div class="shell-mobile-curtain" id="shellMobileCurtain" aria-hidden="true"></div>
+        <div class="shell-main">
+          <main class="shell-scroll" id="shellScroll">
+            <div class="shell-content" id="projectContent">
+              <article class="fs-deck">
+                <header class="fs-hero">
+                  <p class="fs-eyebrow">Portfolio · batch feature engineering pattern</p>
+                  <h1 class="fs-title">Feature Store Mini System</h1>
+                  <p class="fs-subtitle">
+                    Churn-style raw CSV in → one deterministic build → validated feature table out.
+                    Definitions, transforms, and checks live in code so training and batch scoring stay aligned.
+                  </p>
+                  <ul class="fs-stats" aria-label="Project highlights">
+                    <li><strong>8</strong><span>derived features</span></li>
+                    <li><strong>1</strong><span>pipeline entrypoint</span></li>
+                    <li><strong>4</strong><span>validation checks</span></li>
+                  </ul>
+                </header>
+
+                <section class="fs-section" aria-labelledby="fs-fit-heading">
+                  <h2 id="fs-fit-heading" class="fs-section-title">How it works</h2>
+                  <ol class="fs-flow">
+                    <li>
+                      <span class="fs-flow-step" aria-hidden="true">1</span>
+                      <span><strong>Definitions</strong> — each feature documents inputs, dtype, and meaning in one registry.</span>
+                    </li>
+                    <li>
+                      <span class="fs-flow-step" aria-hidden="true">2</span>
+                      <span><strong>Transform</strong> — a single build step produces <code>customer_id</code> + feature columns.</span>
+                    </li>
+                    <li>
+                      <span class="fs-flow-step" aria-hidden="true">3</span>
+                      <span><strong>Validate</strong> — duplicates, schema, and sanity checks before you trust the file.</span>
+                    </li>
+                  </ol>
+                  <p class="fs-scope-note">
+                    Deliberately small: not Feast or Tecton — a <em>reusable pattern</em> for consistent offline features and clear interview narrative.
+                  </p>
+                </section>
+
+                <section class="fs-section" aria-labelledby="fs-run-heading">
+                  <h2 id="fs-run-heading" class="fs-section-title">Run the pipeline</h2>
+                  <p class="fs-section-lead">Same logic two ways: upload here (FastAPI) or run locally from the repo root.</p>
+
+                  <div class="fs-run-grid">
+                    <div class="fs-run-card fs-run-card--live">
+                      <h3 class="fs-run-card-title"><i class="fas fa-bolt" aria-hidden="true"></i> Live on this server</h3>
+                      <p class="fs-run-card-lead">Upload a raw <code>.csv</code> (max 2&nbsp;MB), or run the repo&rsquo;s synthetic sample with one click.</p>
+                      <form id="fs-form" class="fs-form-compact" aria-label="Run pipeline on CSV">
+                        <div class="fs-form-row">
+                          <label class="fs-file-label" for="fs-file">CSV file</label>
+                          <input type="file" id="fs-file" name="file" accept=".csv,text/csv" class="fs-file-input">
+                        </div>
+                        <div class="fs-form-row fs-form-row--tight">
+                          <label class="fs-check-label"><input type="checkbox" id="fs-strict" name="strict"> Strict mode — reject required columns that are 100% null</label>
+                        </div>
+                        <p class="fs-sample-hint">No file handy? One click loads the same <code>sample_raw.csv</code> as the CLI default (~250 synthetic rows).</p>
+                        <div class="fs-form-actions fs-form-actions--split">
+                          <button type="button" class="fs-btn fs-btn--ghost" id="fs-sample-btn">Try bundled sample</button>
+                          <button type="submit" class="fs-btn fs-btn--primary" id="fs-submit">Run pipeline</button>
+                        </div>
+                        <p class="fs-muted">Schema: churn-style columns (e.g. tenure, Contract, services). <a href="../docs" target="_blank" rel="noopener noreferrer">OpenAPI</a></p>
+                      </form>
+                    </div>
+
+                    <div class="fs-run-card fs-run-card--cli">
+                      <h3 class="fs-run-card-title"><i class="fas fa-terminal" aria-hidden="true"></i> Local CLI</h3>
+                      <p class="fs-run-card-lead">After <code>pip install -r requirements.txt</code>:</p>
+                      <div class="fs-cli-block">
+                        <pre class="fs-cli" id="fs-cli-default"><code>python -m src.pipeline.build_feature_table</code></pre>
+                        <button type="button" class="fs-btn fs-btn--ghost" id="fs-copy-cli" aria-label="Copy CLI command">Copy</button>
+                      </div>
+                      <p class="fs-cli-meta">Default in: <code>data/raw/sample_raw.csv</code> → out: <code>artifacts/feature_table/customer_feature_table.csv</code></p>
+                      <p class="fs-cli-meta">Stricter raw checks: <code>python -m src.pipeline.build_feature_table --strict</code></p>
+                    </div>
+                  </div>
+
+                  <nav class="fs-quick-links" aria-label="API shortcuts">
+                    <a href="../docs" class="fs-quick-link" target="_blank" rel="noopener noreferrer"><i class="fas fa-book" aria-hidden="true"></i> Swagger</a>
+                    <a href="../features" class="fs-quick-link"><i class="fas fa-list-ul" aria-hidden="true"></i> Feature catalog</a>
+                    <a href="../health" class="fs-quick-link"><i class="fas fa-heartbeat" aria-hidden="true"></i> Health</a>
+                  </nav>
+                </section>
+              </article>
+
+              <div id="fs-error" class="fs-error fs-hidden" role="alert"></div>
+
+              <div id="fs-result" class="fs-results fs-hidden">
+                <h2 class="fs-section-title fs-results-title">Results</h2>
+                <p class="fs-results-hint">JSON summaries below; preview is the first rows of the built feature table.</p>
+                <div class="fs-panel">
+                  <h3 class="fs-panel-title">Meta</h3>
+                  <pre id="fs-meta" class="fs-pre"></pre>
+                </div>
+                <div class="fs-panel">
+                  <h3 class="fs-panel-title">Input summary</h3>
+                  <pre id="fs-input" class="fs-pre"></pre>
+                </div>
+                <div class="fs-panel">
+                  <h3 class="fs-panel-title">Output summary</h3>
+                  <pre id="fs-output" class="fs-pre"></pre>
+                </div>
+                <div class="fs-panel">
+                  <h3 class="fs-panel-title">Validation <span id="fs-val-badge"></span></h3>
+                  <pre id="fs-validation-summary" class="fs-pre"></pre>
+                </div>
+                <div class="fs-panel">
+                  <h3 class="fs-panel-title">Feature columns</h3>
+                  <pre id="fs-feature-cols" class="fs-pre"></pre>
+                </div>
+                <div class="fs-panel">
+                  <h3 class="fs-panel-title">Preview rows</h3>
+                  <p class="fs-panel-caption" id="fs-preview-caption" aria-live="polite"></p>
+                  <div id="fs-preview-table" class="fs-table-wrap" role="region" aria-label="Feature table preview"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="container-fluid p-30-0">
+              <footer class="footer">
+                <div class="art-copy">© <span id="shellYear"></span> Vahdettin Karataş. All rights reserved.</div>
+                <div class="footer-developer">ML systems, reporting &amp; automation.</div>
+              </footer>
+            </div>
+          </main>
+        </div>
+
+        <aside class="shell-rail" aria-label="Home">
+          <div class="shell-rail-header">
+            <a class="shell-rail-home" href="https://vahdetkaratas.com/" id="shellHomeLink" title="Portfolio home" aria-label="Portfolio home">
+              <svg viewBox="0 0 24 24" aria-hidden="true" class="shell-rail-home-icon">
+                <path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8h5z"/>
+              </svg>
+            </a>
+          </div>
+          <div class="shell-rail-spacer" aria-hidden="true"></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('shellYear').textContent = new Date().getFullYear();
+    (function () {
+      var btn = document.querySelector('.art-info-bar-btn');
+      var bar = document.querySelector('.art-info-bar');
+      var curtain = document.getElementById('shellMobileCurtain');
+      if (!btn || !bar) return;
+      function setOpen(open) {
+        bar.classList.toggle('art-active', open);
+        btn.classList.toggle('art-active', open);
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        if (curtain) {
+          curtain.classList.toggle('is-open', open);
+          curtain.setAttribute('aria-hidden', open ? 'false' : 'true');
+        }
+      }
+      btn.addEventListener('click', function () {
+        setOpen(!bar.classList.contains('art-active'));
+      });
+      if (curtain) {
+        curtain.addEventListener('click', function () {
+          setOpen(false);
+        });
+      }
+    })();
+  </script>
+  <script>
+    (function () {
+      var form = document.getElementById('fs-form');
+      if (!form) return;
+      var errEl = document.getElementById('fs-error');
+      var resultEl = document.getElementById('fs-result');
+      var submitBtn = document.getElementById('fs-submit');
+      var sampleBtn = document.getElementById('fs-sample-btn');
+      var copyCliBtn = document.getElementById('fs-copy-cli');
+
+      if (copyCliBtn) {
+        copyCliBtn.addEventListener('click', function () {
+          var code = document.querySelector('#fs-cli-default code');
+          var text = code ? code.textContent.trim() : '';
+          if (!text) return;
+          function done(ok) {
+            var t = copyCliBtn.textContent;
+            copyCliBtn.textContent = ok ? 'Copied' : 'Copy';
+            if (ok) setTimeout(function () { copyCliBtn.textContent = t; }, 1600);
+          }
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function () { done(true); }).catch(function () { done(false); });
+          } else {
+            done(false);
+          }
+        });
+      }
+
+      function showError(msg) {
+        errEl.textContent = msg;
+        errEl.classList.remove('fs-hidden');
+        resultEl.classList.add('fs-hidden');
+      }
+      function clearError() {
+        errEl.textContent = '';
+        errEl.classList.add('fs-hidden');
+      }
+
+      function buildTable(rows) {
+        if (!rows || !rows.length) return '<p class="fs-muted">No rows</p>';
+        var keys = Object.keys(rows[0]);
+        var h = '<table class="fs-data-table"><thead><tr>';
+        keys.forEach(function (k) { h += '<th>' + escapeHtml(k) + '</th>'; });
+        h += '</tr></thead><tbody>';
+        rows.forEach(function (row) {
+          h += '<tr>';
+          keys.forEach(function (k) {
+            var v = row[k];
+            h += '<td>' + escapeHtml(v === null || v === undefined ? '' : String(v)) + '</td>';
+          });
+          h += '</tr>';
+        });
+        h += '</tbody></table>';
+        return h;
+      }
+      function escapeHtml(s) {
+        var d = document.createElement('div');
+        d.textContent = s;
+        return d.innerHTML;
+      }
+
+      /**
+       * Resolve API URLs from this page location.
+       * - http(s): one level up from layout-shell/ so /myapp/layout-shell/ → /myapp/demo/...
+       * - file://: use meta fs-api-origin (default http://127.0.0.1:8000) — fetch cannot reach file:// paths.
+       */
+      function apiUrl(pathWithOptionalQuery) {
+        var path = pathWithOptionalQuery.charAt(0) === '/' ? pathWithOptionalQuery.slice(1) : pathWithOptionalQuery;
+        if (window.location.protocol === 'file:') {
+          var meta = document.querySelector('meta[name="fs-api-origin"]');
+          var origin = (meta && meta.getAttribute('content') || '').trim().replace(/\/$/, '');
+          if (!origin) origin = 'http://127.0.0.1:8000';
+          return origin + '/' + path;
+        }
+        return new URL('../' + path, window.location.href).href;
+      }
+
+      function setRunLoading(on, spinner) {
+        submitBtn.disabled = on;
+        if (sampleBtn) sampleBtn.disabled = on;
+        submitBtn.classList.remove('is-loading');
+        if (sampleBtn) sampleBtn.classList.remove('is-loading');
+        if (on) {
+          if (spinner === 'sample' && sampleBtn) sampleBtn.classList.add('is-loading');
+          else submitBtn.classList.add('is-loading');
+        }
+        form.setAttribute('aria-busy', on ? 'true' : 'false');
+      }
+
+      function parseFetchResponse(res) {
+        var ct = (res.headers.get('content-type') || '').toLowerCase();
+        if (ct.indexOf('application/json') !== -1) {
+          return res.json().then(function (data) {
+            return { ok: res.ok, status: res.status, data: data, raw: null };
+          });
+        }
+        return res.text().then(function (text) {
+          return { ok: res.ok, status: res.status, data: null, raw: text };
+        });
+      }
+
+      function postTransform(file) {
+        var strict = document.getElementById('fs-strict').checked;
+        var url = apiUrl('/demo/transform' + (strict ? '?strict=true' : ''));
+        var fd = new FormData();
+        fd.append('file', file);
+
+        setRunLoading(true, 'submit');
+        fetch(url, { method: 'POST', body: fd })
+          .then(parseFetchResponse)
+          .then(function (r) {
+            setRunLoading(false);
+            if (r.data === null && r.raw !== null) {
+              var snippet = (r.raw || '').slice(0, 400);
+              showError('Expected JSON from API but got another response (' + r.status + ').\n\n' + (snippet ? snippet + (r.raw.length > 400 ? '…' : '') : '(empty body)'));
+              return;
+            }
+            if (!r.ok) {
+              var d = r.data;
+              var msg;
+              if (r.status === 422 && d && d.detail && typeof d.detail === 'object') {
+                msg = JSON.stringify(d.detail, null, 2);
+              } else if (d && d.detail !== undefined) {
+                msg = typeof d.detail === 'string' ? d.detail : JSON.stringify(d.detail, null, 2);
+              } else {
+                msg = d ? JSON.stringify(d, null, 2) : String(r.raw || '');
+              }
+              showError('Request failed (' + r.status + '):\n' + msg);
+              return;
+            }
+            var data = r.data;
+            document.getElementById('fs-meta').textContent = JSON.stringify(data.meta, null, 2);
+            document.getElementById('fs-input').textContent = JSON.stringify(data.input, null, 2);
+            document.getElementById('fs-output').textContent = JSON.stringify({
+              row_count: data.output.row_count,
+              column_count: data.output.column_count,
+              id_column: data.output.id_column,
+              feature_columns: data.output.feature_columns
+            }, null, 2);
+            document.getElementById('fs-validation-summary').textContent = JSON.stringify(data.validation.summary, null, 2);
+            document.getElementById('fs-feature-cols').textContent = (data.output.feature_columns || []).join(', ');
+            var rows = data.preview && data.preview.rows;
+            document.getElementById('fs-preview-table').innerHTML = buildTable(rows);
+            var cap = document.getElementById('fs-preview-caption');
+            if (cap) {
+              var n = rows && rows.length ? rows.length : 0;
+              var lim = data.preview && data.preview.limit != null ? data.preview.limit : '';
+              var cols = data.output && data.output.column_count != null ? data.output.column_count : '';
+              cap.textContent = n
+                ? 'Showing ' + n + ' row' + (n === 1 ? '' : 's') + (lim !== '' ? ' (preview cap ' + lim + ')' : '') + (cols !== '' ? ' · ' + cols + ' columns in output' : '') + '.'
+                : '';
+            }
+
+            var badge = document.getElementById('fs-val-badge');
+            var allOk = data.validation && data.validation.summary && data.validation.summary.all_ok;
+            badge.innerHTML = allOk
+              ? '<span class="fs-badge ok">all_ok</span>'
+              : '<span class="fs-badge fail">issues</span>';
+
+            resultEl.classList.remove('fs-hidden');
+            var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            try {
+              resultEl.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+            } catch (e) {
+              resultEl.scrollIntoView(true);
+            }
+          })
+          .catch(function (err) {
+            setRunLoading(false);
+            var msg = err.message || String(err);
+            if (msg === 'Failed to fetch' || (err && err.name === 'TypeError')) {
+              msg += '\n\nIf you opened this page from disk (file://), start the API (uvicorn) and either open http://127.0.0.1:8000/ or edit the fs-api-origin meta tag to match your server.';
+            }
+            showError(msg);
+          });
+      }
+
+      if (sampleBtn) {
+        sampleBtn.addEventListener('click', function () {
+          clearError();
+          resultEl.classList.add('fs-hidden');
+          var cap = document.getElementById('fs-preview-caption');
+          if (cap) cap.textContent = '';
+          setRunLoading(true, 'sample');
+          fetch(apiUrl('/demo/sample-raw.csv'))
+            .then(function (res) {
+              if (!res.ok) {
+                setRunLoading(false);
+                showError('Could not load bundled sample (' + res.status + '). Is data/raw/sample_raw.csv deployed with the app?');
+                return null;
+              }
+              return res.blob();
+            })
+            .then(function (blob) {
+              if (!blob) return;
+              var file = new File([blob], 'sample_raw.csv', { type: 'text/csv' });
+              postTransform(file);
+            })
+            .catch(function (err) {
+              setRunLoading(false);
+              var msg = err.message || String(err);
+              if (msg === 'Failed to fetch' || (err && err.name === 'TypeError')) {
+                msg += '\n\nIf you opened this page from disk (file://), start the API (uvicorn) and either open http://127.0.0.1:8000/ or edit the fs-api-origin meta tag to match your server.';
+              }
+              showError(msg);
+            });
+        });
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        clearError();
+        resultEl.classList.add('fs-hidden');
+
+        var fileInput = document.getElementById('fs-file');
+        if (!fileInput.files || !fileInput.files.length) {
+          showError('Choose a CSV file, or use “Try bundled sample”.');
+          return;
+        }
+
+        postTransform(fileInput.files[0]);
+      });
+    })();
+  </script>
+</body>
+</html>

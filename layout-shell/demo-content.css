@@ -1,0 +1,653 @@
+/* Feature Store Mini — main column: presentation + demo panels; theme = styles.css */
+
+.fs-deck {
+  max-width: 56rem;
+}
+
+#projectContent code {
+  font-family: ui-monospace, "Cascadia Code", "Consolas", monospace;
+  font-size: 0.88em;
+  padding: 0.12em 0.35em;
+  background: rgba(25, 25, 35, 0.75);
+  border: 1px solid var(--border-soft);
+  border-radius: 3px;
+  color: var(--text-1);
+}
+
+.fs-file-input {
+  max-width: 100%;
+  font-size: 0.8rem;
+  color: var(--text-2);
+}
+
+.fs-form-row--tight {
+  margin-bottom: 0.5rem;
+}
+
+/* —— Hero —— */
+.fs-hero {
+  margin-bottom: 2rem;
+  padding-bottom: 1.75rem;
+  border-bottom: 1px solid var(--border-soft);
+  position: relative;
+}
+
+.fs-hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 4.5rem;
+  height: 2px;
+  background: linear-gradient(90deg, var(--main-color), transparent);
+  border-radius: 1px;
+}
+
+.fs-eyebrow {
+  margin: 0 0 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.fs-title {
+  margin: 0 0 0.65rem;
+  font-size: clamp(1.45rem, 2.8vw, 1.85rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text-1);
+  letter-spacing: -0.02em;
+}
+
+.fs-subtitle {
+  margin: 0 0 1.25rem;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--text-2);
+  max-width: 48rem;
+}
+
+.fs-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fs-stats li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  padding: 0.4rem 0.85rem;
+  background: rgba(25, 25, 35, 0.45);
+  border: 1px solid var(--border-soft);
+  border-radius: 6px;
+  font-size: 0.8rem;
+  color: var(--text-2);
+}
+
+.fs-stats strong {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--main-color);
+}
+
+.fs-stats li span {
+  opacity: 0.92;
+}
+
+/* —— Sections —— */
+.fs-section {
+  margin-bottom: 2rem;
+}
+
+.fs-section-title {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-1);
+  letter-spacing: -0.01em;
+}
+
+.fs-section-lead {
+  margin: 0 0 1.25rem;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--text-2);
+  max-width: 42rem;
+}
+
+.fs-flow {
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+  counter-reset: fsflow;
+}
+
+.fs-flow li {
+  display: flex;
+  gap: 0.85rem;
+  align-items: flex-start;
+  margin-bottom: 0.85rem;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+
+.fs-flow li:last-child {
+  margin-bottom: 0;
+}
+
+.fs-flow-step {
+  flex-shrink: 0;
+  width: 1.65rem;
+  height: 1.65rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--deep);
+  background: var(--main-color);
+  border-radius: 50%;
+  line-height: 1;
+}
+
+.fs-flow strong {
+  color: var(--text-1);
+  font-weight: 600;
+}
+
+.fs-scope-note {
+  margin: 0;
+  padding: 0.85rem 1rem;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--text-3);
+  background: rgba(45, 45, 58, 0.35);
+  border-left: 3px solid var(--main-color);
+  border-radius: 0 4px 4px 0;
+}
+
+.fs-scope-note em {
+  color: var(--text-2);
+  font-style: normal;
+  font-weight: 500;
+}
+
+/* —— Run grid —— */
+.fs-run-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.15rem;
+}
+
+@media (min-width: 860px) {
+  .fs-run-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    align-items: stretch;
+  }
+}
+
+.fs-run-card {
+  padding: 1.2rem 1.25rem 1.35rem;
+  background: linear-gradient(159deg, rgba(45, 45, 58, 0.5) 0%, rgba(38, 38, 48, 0.4) 100%);
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  box-shadow: var(--shadow-2);
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.fs-run-card--live {
+  border-color: rgba(255, 193, 7, 0.12);
+  box-shadow: var(--shadow-2), 0 0 0 1px rgba(255, 193, 7, 0.06) inset;
+}
+
+.fs-run-card-title {
+  margin: 0 0 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-1);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.fs-run-card-title i {
+  color: var(--main-color);
+  font-size: 0.9rem;
+  opacity: 0.95;
+}
+
+.fs-run-card-lead {
+  margin: 0 0 1rem;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+
+.fs-run-card-lead code {
+  font-size: 0.78em;
+}
+
+.fs-form-compact .fs-form-row {
+  margin-bottom: 0.85rem;
+}
+
+.fs-file-label {
+  display: block;
+  width: 100%;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-3);
+  margin-bottom: 0.35rem;
+}
+
+.fs-check-label {
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.fs-form-actions {
+  margin: 1rem 0 0.65rem;
+}
+
+.fs-form-actions--split {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 0.65rem 0.75rem;
+}
+
+@media (max-width: 520px) {
+  .fs-form-actions--split {
+    flex-direction: column;
+  }
+
+  .fs-form-actions--split .fs-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+.fs-sample-hint {
+  margin: 0 0 0.85rem;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--text-3);
+}
+
+.fs-sample-hint code {
+  font-size: 0.92em;
+  color: var(--text-2);
+}
+
+.fs-cli-block {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.65rem;
+  margin-bottom: 0.75rem;
+}
+
+.fs-cli {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  padding: 0.75rem 1rem;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  overflow-x: auto;
+  background: rgba(18, 18, 26, 0.85);
+  border: 1px solid var(--border-soft);
+  border-radius: 6px;
+  color: #c5e4c8;
+}
+
+.fs-cli code {
+  font-family: ui-monospace, "Cascadia Code", "Consolas", monospace;
+  color: inherit;
+  padding: 0;
+  border: none;
+  background: transparent;
+  border-radius: 0;
+  font-size: inherit;
+}
+
+.fs-cli-meta {
+  margin: 0 0 0.4rem;
+  font-size: 0.76rem;
+  line-height: 1.5;
+  color: var(--text-3);
+}
+
+.fs-cli-meta:last-child {
+  margin-bottom: 0;
+}
+
+.fs-cli-meta code {
+  font-size: 0.92em;
+  color: var(--text-2);
+}
+
+.fs-quick-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-soft);
+}
+
+.fs-quick-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-2);
+  text-decoration: none;
+  border: 1px solid var(--border-soft);
+  border-radius: 4px;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+
+.fs-quick-link:hover {
+  color: var(--main-color);
+  border-color: rgba(255, 193, 7, 0.25);
+  background: rgba(255, 193, 7, 0.06);
+}
+
+.fs-quick-link i {
+  font-size: 0.72rem;
+  opacity: 0.85;
+}
+
+/* —— Results block —— */
+.fs-results {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-soft);
+}
+
+.fs-results-title {
+  margin-bottom: 0.35rem;
+}
+
+.fs-results-hint {
+  margin: 0 0 1.25rem;
+  font-size: 0.8rem;
+  color: var(--text-3);
+  max-width: 40rem;
+}
+
+/* —— Panels —— */
+.fs-panel {
+  margin-bottom: 1.5rem;
+  padding: 1.25rem 1.35rem;
+  background: linear-gradient(159deg, rgba(45, 45, 58, 0.55) 0%, rgba(43, 43, 53, 0.45) 100%);
+  border: 1px solid var(--border-soft);
+  border-radius: 6px;
+  box-shadow: var(--shadow-2);
+}
+
+.fs-panel-title {
+  margin: 0 0 0.65rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-1);
+}
+
+.fs-panel-caption {
+  margin: -0.35rem 0 0.5rem;
+  font-size: 0.76rem;
+  line-height: 1.45;
+  color: var(--text-3);
+}
+
+.fs-panel p,
+.fs-panel li {
+  font-size: 0.88rem;
+  color: var(--text-2);
+  line-height: 1.55;
+  margin: 0 0 0.5rem;
+}
+
+.fs-panel ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.fs-form-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.fs-form-row label {
+  font-size: 0.88rem;
+  color: var(--text-2);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.fs-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.25rem;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--deep);
+  background: var(--main-color);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+
+.fs-btn--primary {
+  box-shadow: 0 2px 12px rgba(255, 193, 7, 0.15);
+}
+
+.fs-btn--primary:hover:not(:disabled) {
+  box-shadow: 0 4px 18px rgba(255, 193, 7, 0.22);
+}
+
+.fs-btn--ghost {
+  color: var(--text-2);
+  background: transparent;
+  border: 1px solid var(--border-soft);
+  font-weight: 500;
+}
+
+.fs-btn--ghost:hover:not(:disabled) {
+  color: var(--main-color);
+  border-color: rgba(255, 193, 7, 0.3);
+  background: rgba(255, 193, 7, 0.05);
+}
+
+.fs-btn:hover:not(:disabled) {
+  opacity: 0.95;
+}
+
+.fs-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.fs-btn.is-loading {
+  position: relative;
+  color: transparent;
+}
+
+.fs-btn.is-loading::after {
+  content: "";
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-top-color: var(--deep);
+  border-radius: 50%;
+  animation: fs-spin 0.65s linear infinite;
+}
+
+@keyframes fs-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.fs-btn--ghost.is-loading {
+  position: relative;
+  color: transparent !important;
+}
+
+.fs-btn--ghost.is-loading::after {
+  content: "";
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-top-color: var(--main-color);
+  border-radius: 50%;
+  animation: fs-spin 0.65s linear infinite;
+}
+
+.fs-btn:focus-visible,
+.fs-quick-link:focus-visible,
+.fs-muted a:focus-visible {
+  outline: 2px solid var(--main-color);
+  outline-offset: 2px;
+}
+
+.fs-file-input:focus-visible {
+  outline: 2px solid var(--main-color);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fs-btn.is-loading::after,
+  .fs-btn--ghost.is-loading::after {
+    animation: none;
+    border-color: rgba(255, 255, 255, 0.25);
+    border-top-color: var(--main-color);
+  }
+}
+
+.fs-muted {
+  font-size: 0.8rem;
+  color: var(--text-3);
+  margin-top: 0.35rem;
+}
+
+.fs-muted a {
+  color: var(--main-color);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.fs-muted a:hover {
+  text-decoration: underline;
+}
+
+.fs-pre {
+  margin: 0;
+  padding: 1rem;
+  font-size: 0.75rem;
+  line-height: 1.45;
+  overflow-x: auto;
+  background: rgba(25, 25, 35, 0.65);
+  border: 1px solid var(--border-soft);
+  border-radius: 4px;
+  color: var(--text-2);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.fs-table-wrap {
+  overflow-x: auto;
+  margin-top: 0.5rem;
+  border: 1px solid var(--border-soft);
+  border-radius: 4px;
+}
+
+.fs-table-wrap table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.72rem;
+}
+
+.fs-table-wrap th,
+.fs-table-wrap td {
+  padding: 0.35rem 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-soft);
+  color: var(--text-2);
+}
+
+.fs-table-wrap th {
+  color: var(--text-1);
+  font-weight: 500;
+  background: rgba(25, 25, 35, 0.5);
+}
+
+.fs-data-table tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.fs-badge {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.fs-badge.ok {
+  background: rgba(76, 175, 80, 0.2);
+  color: #a5d6a7;
+}
+
+.fs-badge.fail {
+  background: rgba(244, 67, 54, 0.15);
+  color: #ef9a9a;
+}
+
+.fs-error {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid rgba(244, 67, 54, 0.35);
+  border-radius: 4px;
+  background: rgba(244, 67, 54, 0.08);
+  color: #ef9a9a;
+  font-size: 0.85rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.fs-lead {
+  font-size: 0.95rem;
+  color: var(--text-2);
+  line-height: 1.6;
+  margin: 0 0 1.25rem;
+  max-width: 52ch;
+}
+
+.fs-hidden {
+  display: none !important;
+}

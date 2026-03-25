@@ -1,0 +1,7 @@
+# Python 3.10+ (tested on 3.11–3.13)
+pandas==3.0.1
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+python-multipart==0.0.20
+httpx==0.28.1
+pytest==9.0.2
