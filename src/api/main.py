@@ -13,7 +13,7 @@ import pandas as pd
 from fastapi import FastAPI, File, HTTPException, Query, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.encoders import jsonable_encoder
-from fastapi.responses import FileResponse, RedirectResponse
+from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
 from src.features.definitions import FEATURE_VERSION
@@ -28,6 +28,7 @@ PREVIEW_ROWS = 20
 # Project root (parent of src/) — main.py lives in src/api/
 _ROOT = Path(__file__).resolve().parent.parent.parent
 SAMPLE_RAW_CSV = _ROOT / "data" / "raw" / "sample_raw.csv"
+LAYOUT_SHELL_INDEX = _ROOT / "layout-shell" / "index.html"
 
 app = FastAPI(
     title="Feature Store Mini — demo API",
@@ -55,9 +56,17 @@ app.mount(
 
 
 @app.get("/")
-def root_redirect():
-    """Demo UI lives in layout-shell/index.html (single HTML file, relative CSS)."""
-    return RedirectResponse(url="/layout-shell/index.html", status_code=302)
+def root_demo_page() -> FileResponse:
+    """Serve the demo HTML at / so the URL bar stays on the site root (assets under /layout-shell/)."""
+    if not LAYOUT_SHELL_INDEX.is_file():
+        raise HTTPException(
+            status_code=404,
+            detail="Demo page missing (expected layout-shell/index.html).",
+        )
+    return FileResponse(
+        path=str(LAYOUT_SHELL_INDEX),
+        media_type="text/html; charset=utf-8",
+    )
 
 
 @app.get("/health")

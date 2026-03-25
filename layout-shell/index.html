@@ -11,9 +11,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
-  <!-- Relative paths: open this file via FastAPI at /layout-shell/index.html (or GET / → redirect) -->
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="demo-content.css">
+  <!-- Absolute /layout-shell/* so the same file works at GET / and GET /layout-shell/index.html -->
+  <link rel="stylesheet" href="/layout-shell/styles.css">
+  <link rel="stylesheet" href="/layout-shell/demo-content.css">
 </head>
 <body>
   <div class="shell-outer">
@@ -168,9 +168,9 @@
                   </div>
 
                   <nav class="fs-quick-links" aria-label="API shortcuts">
-                    <a href="../docs" class="fs-quick-link" target="_blank" rel="noopener noreferrer"><i class="fas fa-book" aria-hidden="true"></i> Swagger</a>
-                    <a href="../features" class="fs-quick-link"><i class="fas fa-list-ul" aria-hidden="true"></i> Feature catalog</a>
-                    <a href="../health" class="fs-quick-link"><i class="fas fa-heartbeat" aria-hidden="true"></i> Health</a>
+                    <a href="/docs" class="fs-quick-link" target="_blank" rel="noopener noreferrer"><i class="fas fa-book" aria-hidden="true"></i> Swagger</a>
+                    <a href="/features" class="fs-quick-link"><i class="fas fa-list-ul" aria-hidden="true"></i> Feature catalog</a>
+                    <a href="/health" class="fs-quick-link"><i class="fas fa-heartbeat" aria-hidden="true"></i> Health</a>
                   </nav>
                 </section>
               </article>

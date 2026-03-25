@@ -1,6 +1,6 @@
 # layout-shell
 
-**This repo (Feature Store Mini):** FastAPI serves this folder at **`/layout-shell`**. The live demo is **`index.html`** (shell + CSV upload UI in `#projectContent`); main-column-only tweaks live in **`demo-content.css`**. **`GET /`** on the API redirects to **`/layout-shell/index.html`**.
+**This repo (Feature Store Mini):** FastAPI serves this folder at **`/layout-shell`**. The live demo is **`index.html`** (shell + CSV upload UI in `#projectContent`); main-column-only tweaks live in **`demo-content.css`**. **`GET /`** serves the same **`index.html`** (URL stays **`/`**); static assets load from **`/layout-shell/*.css`**.
 
 **Other projects:** `vercel_demo/static/layout-shell.css` (kept in sync with `styles.css` here) + page-specific CSS for churn demos, etc.
 

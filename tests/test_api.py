@@ -18,10 +18,14 @@ def test_health(client):
     assert r.json() == {"status": "ok"}
 
 
-def test_root_redirects_to_layout_shell(client):
-    r = client.get("/", follow_redirects=False)
-    assert r.status_code == 302
-    assert r.headers.get("location") == "/layout-shell/index.html"
+def test_root_serves_demo_html(client):
+    r = client.get("/")
+    assert r.status_code == 200
+    assert "text/html" in r.headers.get("content-type", "")
+    body = r.text
+    assert "Feature Store Mini" in body
+    assert "/layout-shell/styles.css" in body
+    assert "/layout-shell/demo-content.css" in body
 
 
 def test_demo_sample_raw_csv_served(client):
@@ -40,8 +44,8 @@ def test_demo_page_renders(client):
     body = r.text
     assert "Feature Store Mini" in body
     assert "/demo/transform" in body
-    assert 'href="styles.css"' in body
-    assert 'href="demo-content.css"' in body
+    assert 'href="/layout-shell/styles.css"' in body
+    assert 'href="/layout-shell/demo-content.css"' in body
 
 
 def test_features_catalog(client):

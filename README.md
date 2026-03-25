@@ -137,13 +137,13 @@ A **small FastAPI** app serves (1) a **minimal HTML demo** and (2) **JSON APIs**
 uvicorn src.api.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
-**HTML demo:** **`/`** redirects (**302**) to **`/layout-shell/index.html`** — one static page (portfolio shell + main-column copy, file upload, “try bundled sample”, results). Assets: **`/layout-shell/styles.css`**, **`/layout-shell/demo-content.css`** (relative links inside that folder).
+**HTML demo:** **`/`** serves the same **`layout-shell/index.html`** (URL stays on `/`). The **`/layout-shell/`** mount still serves that folder for static assets (**`/layout-shell/styles.css`**, **`/layout-shell/demo-content.css`**) and direct access to **`/layout-shell/index.html`** if needed.
 
 **Interactive API docs:** **`/docs`** (Swagger UI) or **`/redoc`** (ReDoc), e.g. `http://127.0.0.1:8000/docs`.
 
 | Endpoint | Purpose |
 |----------|---------|
-| `GET /` | Redirects to `/layout-shell/index.html` (demo UI) |
+| `GET /` | Demo HTML (same file as `layout-shell/index.html`; URL remains `/`) |
 | `GET /health` | Liveness |
 | `GET /features` | Feature **catalog**: name, `dtype`, `kind`, description, `input_columns` (from `definitions.py`) |
 | `GET /demo/sample-raw.csv` | Returns the committed **`data/raw/sample_raw.csv`** (same default input as the CLI); used by the demo page and handy for curl |
