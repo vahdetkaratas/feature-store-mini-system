@@ -1,198 +1,62 @@
 # Feature Store Mini System
 
-A **small, honest batch pipeline** that turns **raw customer rows** (Telco-style / churn schema) into a **reusable feature table** (CSV). It centralizes **feature definitions**, **transform code**, and **lightweight validation** so training and batch scoring can share the same logic.
+This repository is a **compact batch pipeline** that turns **Telco-style (churn) customer rows** in a raw CSV into a **single feature table** you can reuse for analysis, training prep, or batch scoring. The idea is to keep **feature meaning, transform code, and validation** in one place so nothing drifts between a notebook, a script, and a downstream consumer.
 
-## What this is
+**How it is organized.** Each engineered column is described in a **definition registry** (name, dtypes, which raw fields it needs, a short description). A **single build step** reads the raw table, runs the registered transforms in order, and writes a table with `customer_id` plus the derived features. A small **validation layer** then checks the result (for example duplicate ids, expected columns, reasonable numerics, entirely-null columns) and returns a compact summary that is easy to surface in an API or a log.
 
-- A **mini “feature-store-style” engineering pattern**: definitions → transforms → one build step → validated output.
-- A **batch pipeline** you can run locally, test with `pytest`, and (optionally) expose via a **small FastAPI app**: **JSON endpoints** (`/features`, `/demo/transform`, etc.) always; a **minimal HTML demo** if you add the private **`layout-shell/`** tree locally (see repo layout above).
-- **Portfolio-sized**: enough structure to discuss feature consistency in interviews without claiming a full platform.
+**What it is not.** This is **not** a hosted feature store (no Feast/Tecton-style online serving, materialized history, or point-in-time joins). It is **not** a training or model-serving project. Scope stays deliberately small: **one honest batch pattern** with tests and an optional HTTP layer so someone else can see the same behavior without digging through only notebooks.
 
-## What this is not
+**Stack.** Python, **pandas**, **pytest**, and optional **FastAPI** for JSON endpoints and an optional local **HTML demo** if you add a **`layout-shell/`** folder beside `src/` (that folder is **gitignored** and is not part of the default clone). **GitHub Actions** runs tests and a one-line CLI smoke build on Python **3.11** and **3.12**.
 
-- Not Feast / Tecton / a real feature platform (no online serving, no materialized history, no point-in-time joins).
-- Not a training or model-serving repo.
-- Not a large UI product.
+---
 
 ## Repository layout
 
+At a glance: **`src/features`** holds definitions and transforms; **`src/pipeline`** exposes `build_feature_table` and structured **`PipelineInputError`** codes for bad input; **`src/validation`** runs checks on the built frame; **`data/raw`** holds a synthetic **`sample_raw.csv`**; **`src/api`** wires the same build into **`POST /demo/transform`** and a **`/features`** catalog. See the tree below for file-level navigation.
+
 ```
-data/raw/sample_raw.csv          # Synthetic demo input (~250 rows; regenerate optional)
-scripts/generate_sample_raw.py   # Regenerates sample_raw.csv (deterministic seed)
-src/features/                    # definitions, transforms, registry, metadata (API catalog)
-src/pipeline/build_feature_table.py
-src/pipeline/errors.py           # Structured input errors (used by API 422 responses)
-src/validation/feature_checks.py
-src/api/main.py                  # FastAPI: / , /features , /demo/sample-raw.csv , /demo/transform (+ optional layout-shell mount)
+data/raw/sample_raw.csv       # synthetic sample (~250 rows)
+scripts/generate_sample_raw.py
+src/features/
+src/pipeline/
+src/validation/
+src/api/main.py
 tests/
-.github/workflows/ci.yml         # pytest + smoke pipeline (GitHub Actions)
+.github/workflows/ci.yml
 ```
 
-**Demo UI:** the **`layout-shell/`** directory (HTML shell, CSS, favicon, etc.) is **not committed**; it is listed in **`.gitignore`**. Keep your own copy next to `src/` for a local browser demo. Without it, **`GET /`** returns **404**, the **`/layout-shell/*`** static mount is omitted, and **`/features`**, **`/demo/transform`**, **`/demo/sample-raw.csv`**, **`/docs`** still work.
+If **`layout-shell/`** is missing after clone, the JSON API and Swagger still work; **`GET /`** returns **404** and static files are not mounted under **`/layout-shell/`**.
 
-## Requirements
+---
 
-- **Python 3.11 or 3.12** (these are the versions CI runs on GitHub Actions).
-- Dependencies are **pinned** in `requirements.txt`. Newer Python (e.g. 3.13) may work locally but is not CI-guaranteed.
+## Input and output
+
+The pipeline expects **known column names** compatible with a typical churn-style export (customer id, tenure, charges, contract, internet/phone/add-on flags). The exact set is driven by **`src/features/definitions.py`**. Missing required columns do not fail silently: the code raises **`PipelineInputError`** with a stable **`code`** such as `MISSING_RAW_COLUMNS`.
+
+The built table has **`customer_id`** plus eight derived columns, including bands, booleans, counts, **`charge_per_tenure`**, and a **`feature_version`** stamp. Validation can run from disk or on the DataFrame in memory and produces a **`summary`** suitable for APIs alongside detailed check blocks.
+
+---
+
+## Getting started
+
+Use **Python 3.11 or 3.12** (what CI runs). Create a venv, install dependencies from **`requirements.txt`**, then from the **repository root** run the default build:
 
 ```bash
-python -m venv .venv
-# Windows: .venv\Scripts\activate
+python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
-```
-
-## Run the pipeline (CLI)
-
-From the **repository root** (paths are relative to CWD):
-
-```bash
 python -m src.pipeline.build_feature_table
 ```
 
-- **Input (default):** `data/raw/sample_raw.csv`
-- **Output:** `artifacts/feature_table/customer_feature_table.csv`
+By default this reads **`data/raw/sample_raw.csv`** and writes **`artifacts/feature_table/customer_feature_table.csv`**. You can point **`--raw`** and **`--out`** elsewhere; **`--strict`** tightens rules when a required raw column exists but is entirely null. To regenerate the sample CSV, run **`python scripts/generate_sample_raw.py`**. To run the test suite: **`python -m pytest tests/ -v`**.
 
-Optional flags:
+---
 
-```bash
-python -m src.pipeline.build_feature_table --raw data/raw/sample_raw.csv --out artifacts/feature_table/out.csv
-python -m src.pipeline.build_feature_table --strict
-```
+## Optional HTTP demo
 
-| Flag | Meaning |
-|------|---------|
-| `--raw` | Path to raw CSV (defaults to `data/raw/sample_raw.csv`) |
-| `--out` | Output feature table path (defaults to `artifacts/feature_table/customer_feature_table.csv`) |
-| `--strict` | Fail if a required raw column exists but is 100% null |
+The same build runs behind **FastAPI**: start the app with **`uvicorn src.api.main:app --reload --host 127.0.0.1 --port 8000`**, then open **`/docs`** for interactive documentation. Endpoints include **`/features`** (catalog), **`/demo/sample-raw.csv`** (bundled input), and **`/demo/transform`** (upload a CSV, optional **`strict=true`**). Successful responses include **`meta`**, **`input`**, **`output`**, **`validation`**, and **`preview`**; validation failures typically return **422** with a structured **`detail`** object (**`code`**, **`message`**, **`missing_columns`**, **`details`**).
 
-Custom paths (Python):
+---
 
-```python
-from src.pipeline.build_feature_table import run_build_feature_table
+## Data note
 
-run_build_feature_table(
-    raw_path="data/raw/sample_raw.csv",
-    output_path="artifacts/feature_table/customer_feature_table.csv",
-    strict=False,
-)
-```
-
-### Sample data
-
-- Committed `sample_raw.csv` is **synthetic** (not real customers), generated for a **non-trivial row count** so demos and quick stats are meaningful.
-- Regenerate anytime:
-
-```bash
-python scripts/generate_sample_raw.py
-```
-
-## Raw input schema
-
-The pipeline expects **Churn-style** columns (names must match). At minimum, every column referenced in `src/features/definitions.py` must be present, plus a customer id:
-
-- `customerID` or `customer_id`
-- `tenure`, `MonthlyCharges`, `TotalCharges`, `Contract`, `InternetService`, `TechSupport`
-- `PhoneService`, `MultipleLines`, `OnlineSecurity`, `OnlineBackup`, `DeviceProtection`, `StreamingTV`, `StreamingMovies`
-
-If required columns are missing, the pipeline raises **`PipelineInputError`** (subclass of `ValueError`) with a stable `code` (e.g. `MISSING_RAW_COLUMNS`) instead of silently producing zeros/false features.
-
-Optional **`strict=True`** (CLI programmatic use or API query `strict=true`): also rejects inputs where a required raw column **exists but is 100% null**.
-
-## Output schema
-
-`customer_id` plus eight features:
-
-| Column | Role |
-|--------|------|
-| `num_active_services` | int |
-| `is_long_term_contract` | bool |
-| `monthly_charge_band` | Low / Medium / High |
-| `charge_per_tenure` | float |
-| `has_tech_support` | bool |
-| `is_fiber_user` | bool |
-| `has_streaming_bundle` | bool |
-| `feature_version` | string (e.g. `v1.0`) |
-
-## Validation
-
-```python
-from src.validation.feature_checks import validate_feature_table
-
-result = validate_feature_table(path="artifacts/feature_table/customer_feature_table.csv")
-print(result["all_ok"], result["summary"], result["duplicate_check"])
-```
-
-Checks include duplicate `customer_id`, missing expected columns, basic numeric sanity, and “column entirely null”. Each full result includes a compact **`summary`** block (`checks_passed`, per-check `ok`, headline) for APIs and reviewers.
-
-## Tests
-
-```bash
-python -m pytest tests/ -v
-```
-
-## Optional: minimal live demo (FastAPI)
-
-A **small FastAPI** app exposes **JSON APIs** for the same pipeline. If **`layout-shell/`** is present locally, it also serves a **minimal HTML demo** (upload + bundled `sample_raw.csv`). **`POST /demo/transform`** returns the same structured JSON you can use from **curl** or **Swagger** with or without that UI.
-
-```bash
-uvicorn src.api.main:app --reload --host 127.0.0.1 --port 8000
-```
-
-**HTML demo (when `layout-shell/` exists):** **`/`** serves **`layout-shell/index.html`** (URL stays on `/`). Static files are mounted at **`/layout-shell/`** (e.g. **`/layout-shell/styles.css`**). If the folder is missing, **`GET /`** is **404** and there is no **`/layout-shell/*`** mount.
-
-**Interactive API docs:** **`/docs`** (Swagger UI) or **`/redoc`** (ReDoc), e.g. `http://127.0.0.1:8000/docs`.
-
-| Endpoint | Purpose |
-|----------|---------|
-| `GET /` | Demo HTML when **`layout-shell/index.html`** exists; otherwise **404** |
-| `GET /health` | Liveness |
-| `GET /features` | Feature **catalog**: name, `dtype`, `kind`, description, `input_columns` (from `definitions.py`) |
-| `GET /demo/sample-raw.csv` | Returns the committed **`data/raw/sample_raw.csv`** (same default input as the CLI); used by the demo page and handy for curl |
-| `POST /demo/transform` | Multipart `file` = raw `.csv` (max 2 MB). Query `strict=true` for stricter raw checks |
-
-**`POST /demo/transform` response shape** (high level):
-
-- `meta` — `pipeline_version` (API app version), `feature_table_version` (from `FEATURE_VERSION` in definitions), `strict_mode`, `preview_row_limit`  
-- `input` — filename, row/column counts, column names  
-- `output` — row/column counts, `id_column`, `feature_columns`, full column list  
-- `validation` — `summary` (pass counts + checklist) + `details` (full check dicts)  
-- `preview` — first N rows as JSON records  
-
-**422 errors** for schema/strict failures return a JSON body in `detail` with: `code`, `message`, `missing_columns`, `details`.
-
-Common `detail.code` values:
-
-| `code` | Meaning |
-|--------|---------|
-| `MISSING_CUSTOMER_ID` | No `customer_id` or `customerID` column in the upload. |
-| `MISSING_RAW_COLUMNS` | One or more raw columns required by registered features are absent (`missing_columns` lists them). |
-| `STRICT_RAW_ALL_NULL` | `strict=true` / `--strict`: a required raw column is present but entirely null (`details.entirely_null_columns`). |
-| `MISSING_TRANSFORM` | Registry/feature wiring bug: a feature name has no implementation in `TRANSFORM_FUNCTIONS`. |
-
-**Reviewer quick path (terminal):** with the API running locally, scan the structured response without scrolling the full JSON (requires [jq](https://jqlang.org/)):
-
-```bash
-curl -s -X POST "http://127.0.0.1:8000/demo/transform" -F "file=@data/raw/sample_raw.csv" \
-  | jq '.meta, .validation.summary, .output.feature_columns'
-```
-
-Example (curl, full body):
-
-```bash
-curl -s -X POST "http://127.0.0.1:8000/demo/transform" -F "file=@data/raw/sample_raw.csv"
-curl -s "http://127.0.0.1:8000/features"
-```
-
-This is intentionally minimal: **definitions + batch build + validation** over **JSON APIs**, with an optional local **HTML demo** when `layout-shell/` is present — not a production feature store.
-
-## CI (GitHub Actions)
-
-On push/PR to `main` or `master`, CI runs on Python **3.11** and **3.12**: `pip install -r requirements.txt`, `pytest`, then a **smoke** run of `python -m src.pipeline.build_feature_table`.
-
-## Why this matters (portfolio framing)
-
-Interviewers often see models and APIs; fewer candidates show **where features come from** and how to avoid **train/serve skew**. This repo demonstrates a **single source of truth** for feature logic (definitions + transforms + one build entrypoint) and **basic output validation** — at a scope that stays truthful.
-
-## License / data
-
-Synthetic sample data is generated by `scripts/generate_sample_raw.py` for demonstration only.
+**`sample_raw.csv`** is **synthetic** and generated for demonstration only (**`scripts/generate_sample_raw.py`**), not real customers.
