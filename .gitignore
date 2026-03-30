@@ -8,3 +8,6 @@ venv/
 
 # Generated pipeline output (reproducible via build_feature_table)
 artifacts/feature_table/*.csv
+
+# Browser demo shell + static UI (kept locally / deployed separately — not published in this repo)
+layout-shell/

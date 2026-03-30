@@ -6,6 +6,10 @@ from fastapi.testclient import TestClient
 
 from src.api.main import app
 
+_REPO_ROOT = Path(__file__).resolve().parents[1]
+_LAYOUT_SHELL_INDEX = _REPO_ROOT / "layout-shell" / "index.html"
+HAS_LAYOUT_SHELL_DEMO = _LAYOUT_SHELL_INDEX.is_file()
+
 
 @pytest.fixture
 def client():
@@ -18,6 +22,10 @@ def test_health(client):
     assert r.json() == {"status": "ok"}
 
 
+@pytest.mark.skipif(
+    not HAS_LAYOUT_SHELL_DEMO,
+    reason="layout-shell/ not present (gitignored / optional UI)",
+)
 def test_root_serves_demo_html(client):
     r = client.get("/")
     assert r.status_code == 200
@@ -37,6 +45,10 @@ def test_demo_sample_raw_csv_served(client):
     assert len(body) > 100
 
 
+@pytest.mark.skipif(
+    not HAS_LAYOUT_SHELL_DEMO,
+    reason="layout-shell/ not present (gitignored / optional UI)",
+)
 def test_demo_page_renders(client):
     r = client.get("/layout-shell/index.html")
     assert r.status_code == 200
@@ -46,6 +58,16 @@ def test_demo_page_renders(client):
     assert "/demo/transform" in body
     assert 'href="/layout-shell/styles.css"' in body
     assert 'href="/layout-shell/demo-content.css"' in body
+
+
+@pytest.mark.skipif(
+    HAS_LAYOUT_SHELL_DEMO,
+    reason="layout-shell demo is installed",
+)
+def test_root_404_when_demo_ui_not_installed(client):
+    r = client.get("/")
+    assert r.status_code == 404
+    assert "layout-shell" in r.json()["detail"].lower()
 
 
 def test_features_catalog(client):

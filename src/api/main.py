@@ -28,7 +28,8 @@ PREVIEW_ROWS = 20
 # Project root (parent of src/) — main.py lives in src/api/
 _ROOT = Path(__file__).resolve().parent.parent.parent
 SAMPLE_RAW_CSV = _ROOT / "data" / "raw" / "sample_raw.csv"
-LAYOUT_SHELL_INDEX = _ROOT / "layout-shell" / "index.html"
+_LAYOUT_SHELL_DIR = _ROOT / "layout-shell"
+LAYOUT_SHELL_INDEX = _LAYOUT_SHELL_DIR / "index.html"
 
 app = FastAPI(
     title="Feature Store Mini — demo API",
@@ -48,20 +49,22 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.mount(
-    "/layout-shell",
-    StaticFiles(directory=str(_ROOT / "layout-shell")),
-    name="layout_shell",
-)
+# Static UI only if the folder exists (layout-shell/ may be gitignored / deployed separately).
+if _LAYOUT_SHELL_DIR.is_dir():
+    app.mount(
+        "/layout-shell",
+        StaticFiles(directory=str(_LAYOUT_SHELL_DIR)),
+        name="layout_shell",
+    )
 
 
 @app.get("/")
 def root_demo_page() -> FileResponse:
-    """Serve the demo HTML at / so the URL bar stays on the site root (assets under /layout-shell/)."""
+    """Serve the demo HTML at / when layout-shell/index.html is present."""
     if not LAYOUT_SHELL_INDEX.is_file():
         raise HTTPException(
             status_code=404,
-            detail="Demo page missing (expected layout-shell/index.html).",
+            detail="Demo page missing (add layout-shell/index.html locally or deploy static UI separately).",
         )
     return FileResponse(
         path=str(LAYOUT_SHELL_INDEX),

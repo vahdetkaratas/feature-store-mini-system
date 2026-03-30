@@ -5,7 +5,7 @@ A **small, honest batch pipeline** that turns **raw customer rows** (Telco-style
 ## What this is
 
 - A **mini “feature-store-style” engineering pattern**: definitions → transforms → one build step → validated output.
-- A **batch pipeline** you can run locally, test with `pytest`, and (optionally) expose via a **small FastAPI app**: a **minimal HTML demo page** (upload + bundled sample) plus **JSON endpoints** (`/features`, `/demo/transform`, etc.).
+- A **batch pipeline** you can run locally, test with `pytest`, and (optionally) expose via a **small FastAPI app**: **JSON endpoints** (`/features`, `/demo/transform`, etc.) always; a **minimal HTML demo** if you add the private **`layout-shell/`** tree locally (see repo layout above).
 - **Portfolio-sized**: enough structure to discuss feature consistency in interviews without claiming a full platform.
 
 ## What this is not
@@ -19,15 +19,16 @@ A **small, honest batch pipeline** that turns **raw customer rows** (Telco-style
 ```
 data/raw/sample_raw.csv          # Synthetic demo input (~250 rows; regenerate optional)
 scripts/generate_sample_raw.py   # Regenerates sample_raw.csv (deterministic seed)
-layout-shell/                    # Demo UI: index.html + styles.css + demo-content.css (served at /layout-shell/)
 src/features/                    # definitions, transforms, registry, metadata (API catalog)
 src/pipeline/build_feature_table.py
 src/pipeline/errors.py           # Structured input errors (used by API 422 responses)
 src/validation/feature_checks.py
-src/api/main.py                  # FastAPI: /layout-shell static demo; / , /features , /demo/sample-raw.csv , /demo/transform
+src/api/main.py                  # FastAPI: / , /features , /demo/sample-raw.csv , /demo/transform (+ optional layout-shell mount)
 tests/
 .github/workflows/ci.yml         # pytest + smoke pipeline (GitHub Actions)
 ```
+
+**Demo UI:** the **`layout-shell/`** directory (HTML shell, CSS, favicon, etc.) is **not committed**; it is listed in **`.gitignore`**. Keep your own copy next to `src/` for a local browser demo. Without it, **`GET /`** returns **404**, the **`/layout-shell/*`** static mount is omitted, and **`/features`**, **`/demo/transform`**, **`/demo/sample-raw.csv`**, **`/docs`** still work.
 
 ## Requirements
 
@@ -131,19 +132,19 @@ python -m pytest tests/ -v
 
 ## Optional: minimal live demo (FastAPI)
 
-A **small FastAPI** app serves (1) a **minimal HTML demo** and (2) **JSON APIs** for the same pipeline. The page lets you upload a raw CSV or run the **bundled** `sample_raw.csv` without a local file; **`POST /demo/transform`** returns the same structured JSON you can also obtain from **curl** or **Swagger**.
+A **small FastAPI** app exposes **JSON APIs** for the same pipeline. If **`layout-shell/`** is present locally, it also serves a **minimal HTML demo** (upload + bundled `sample_raw.csv`). **`POST /demo/transform`** returns the same structured JSON you can use from **curl** or **Swagger** with or without that UI.
 
 ```bash
 uvicorn src.api.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
-**HTML demo:** **`/`** serves the same **`layout-shell/index.html`** (URL stays on `/`). The **`/layout-shell/`** mount still serves that folder for static assets (**`/layout-shell/styles.css`**, **`/layout-shell/demo-content.css`**) and direct access to **`/layout-shell/index.html`** if needed.
+**HTML demo (when `layout-shell/` exists):** **`/`** serves **`layout-shell/index.html`** (URL stays on `/`). Static files are mounted at **`/layout-shell/`** (e.g. **`/layout-shell/styles.css`**). If the folder is missing, **`GET /`** is **404** and there is no **`/layout-shell/*`** mount.
 
 **Interactive API docs:** **`/docs`** (Swagger UI) or **`/redoc`** (ReDoc), e.g. `http://127.0.0.1:8000/docs`.
 
 | Endpoint | Purpose |
 |----------|---------|
-| `GET /` | Demo HTML (same file as `layout-shell/index.html`; URL remains `/`) |
+| `GET /` | Demo HTML when **`layout-shell/index.html`** exists; otherwise **404** |
 | `GET /health` | Liveness |
 | `GET /features` | Feature **catalog**: name, `dtype`, `kind`, description, `input_columns` (from `definitions.py`) |
 | `GET /demo/sample-raw.csv` | Returns the committed **`data/raw/sample_raw.csv`** (same default input as the CLI); used by the demo page and handy for curl |
@@ -182,7 +183,7 @@ curl -s -X POST "http://127.0.0.1:8000/demo/transform" -F "file=@data/raw/sample
 curl -s "http://127.0.0.1:8000/features"
 ```
 
-This is intentionally minimal: **definitions + batch build + validation** exposed as a small HTML demo and JSON APIs, not a production feature store.
+This is intentionally minimal: **definitions + batch build + validation** over **JSON APIs**, with an optional local **HTML demo** when `layout-shell/` is present — not a production feature store.
 
 ## CI (GitHub Actions)
 
