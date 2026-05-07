@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Batch feature pipeline with a shared definition registry, pandas transforms, validation checks, FastAPI catalog and transform endpoint, and pytest CI.">
+  <meta name="theme-color" content="#191923">
+  <title>Feature Store Mini — batch feature workflow</title>
+  <link rel="icon" href="/layout-shell/favicon.svg" type="image/svg+xml">
+  <link rel="shortcut icon" href="/layout-shell/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Poppins:wght@200;300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="/layout-shell/shell.css">
+  <link rel="stylesheet" href="/layout-shell/demo-content.css">
+</head>
+<body>
+  <div class="shell-outer">
+    <div class="shell-card">
+      <div class="art-info-bar">
+        <div class="art-info-bar-frame">
+          <div class="art-info-bar-header">
+            <button type="button" class="art-info-bar-btn" aria-label="Toggle info" aria-expanded="false">
+              <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+            </button>
+          </div>
+
+          <div class="art-header">
+            <div class="art-avatar">
+              <a href="https://vahdetlabs.com/" class="art-avatar-curtain">
+                <img src="https://vahdetkaratas.com/img/face-1.jpg" alt="Vahdettin Karataş" width="90" height="90">
+                <i class="fas fa-expand" aria-hidden="true"></i>
+              </a>
+              <div class="art-lamp-light">
+                <div class="art-available-lamp"></div>
+              </div>
+            </div>
+            <h5 class="art-name mb-10"><a href="https://vahdetlabs.com/">Vahdettin Karataş</a></h5>
+            <div class="art-sm-text">Freelance data / ML delivery — batch workflows &amp; internal APIs</div>
+            
+          </div>
+
+          <div id="scrollbar2" class="art-scroll-frame">
+            <div class="art-table p-15-15">
+              <ul>
+                <li><h6>Location:</h6><span>Prague, Czech Republic</span></li>
+              </ul>
+            </div>
+
+            <div class="art-ls-divider"></div>
+
+            <div class="art-knowledge-block p-30-15">
+              <h6 class="mb-15">Technical focus</h6>
+              <ul class="art-knowledge-list p-15-0">
+                <li>Operational data to model-ready tables</li>
+<li>Reusable transform definitions</li>
+<li>Validation &amp; structured errors</li>
+<li>Internal APIs &amp; automation</li>
+<li>Pilot-sized engagements</li>
+              </ul>
+            </div>
+
+            <div class="art-knowledge-block p-30-15">
+              <h6 class="mb-15">For client evaluation</h6>
+              <ul class="art-knowledge-list p-15-0">
+                <li><a href="https://features.vahdetkaratas.com/" target="_blank" rel="noopener noreferrer">Feature workflow demo</a></li>
+<li><a href="https://features.vahdetkaratas.com/docs" target="_blank" rel="noopener noreferrer">API reference (OpenAPI)</a></li>
+<li><a href="https://vahdetlabs.com/contact" target="_blank" rel="noopener noreferrer">Contact</a></li>
+<li><a href="https://vahdetlabs.com/" target="_blank" rel="noopener noreferrer">Vahdetlabs</a></li>
+              </ul>
+            </div>
+
+            <div class="art-knowledge-block p-30-15"><h6 class="mb-15">Related</h6><ul class="art-knowledge-list p-15-0"><li><a href="https://vahdetlabs.com/" target="_blank" rel="noopener noreferrer">Vahdetlabs</a></li></ul></div>
+          </div>
+
+          <div class="art-ls-social">
+            <a href="https://github.com/vahdetkaratas" target="_blank" rel="noopener noreferrer" title="GitHub" aria-label="GitHub"><i class="fab fa-github" aria-hidden="true"></i></a>
+<a href="https://linkedin.com/in/vahdetkaratas" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="shell-main-wrap" id="shellMainWrap">
+        <div class="shell-mobile-curtain" id="shellMobileCurtain" aria-hidden="true"></div>
+        <div class="shell-main">
+          <main class="shell-scroll" id="shellScroll">
+            <div class="shell-content" id="projectContent">
+              <div class="batch-page">
+                <a class="skip" href="#main">Skip to content</a>
+
+                <div class="wrap">
+                  <header>
+                    <div class="logo" id="top">Feature <span>store mini</span></div>
+                    <div class="nav-actions">
+                      <a class="btn btn-primary" href="https://features.vahdetkaratas.com/" target="_blank" rel="noopener noreferrer">Open workflow demo</a>
+<a class="btn btn-ghost" href="https://vahdetlabs.com/contact" target="_blank" rel="noopener noreferrer">Discuss a use case</a>
+<a class="btn btn-ghost" href="https://vahdetlabs.com/" target="_blank" rel="noopener noreferrer">Vahdetlabs</a>
+                    </div>
+                  </header>
+
+                  <div id="main">
+                    <section class="hero">
+                      <span class="hero-badge">Pilot capability · repeatable feature prep</span>
+                      <h1>Feature Store Mini</h1>
+                      <p class="hero-lead">Turn an agreed raw export into a model-ready feature table with named transforms and checks—useful for pilots where spreadsheets and ad-hoc scripts drift apart.</p>
+                      <div class="hero-cta">
+                        <a class="btn btn-primary" href="https://features.vahdetkaratas.com/" target="_blank" rel="noopener noreferrer">Open workflow demo</a>
+<a class="btn btn-ghost" href="https://vahdetlabs.com/contact" target="_blank" rel="noopener noreferrer">Discuss a use case</a>
+<a class="btn btn-ghost" href="https://vahdetlabs.com/" target="_blank" rel="noopener noreferrer">Vahdetlabs</a>
+                      </div>
+                      <p class="hero-note">Framed as workflow discipline, not a replacement for enterprise feature platforms. Live demo and API docs reflect the same shipped code.</p>
+                      <div class="metrics" aria-label="Project facts">
+                        <div><span>Python · pandas</span></div>
+<div><span>pytest · GitHub Actions</span></div>
+<div><span>FastAPI · OpenAPI</span></div>
+<div><span>Offline batch only</span></div>
+                      </div>
+                    </section>
+
+                    <section id="scope" aria-labelledby="h-scope"><h2 id="h-scope">Limitations &amp; scope</h2><div class="pitch"><ul><li>Not an online feature store: no point-in-time joins, no real-time serving layer, no Feast/Tecton-scale materialization.</li>
+<li>Scope is a single-repo pattern for consistent offline features and reviewable validation—not training or model hosting.</li>
+<li>Demo raw schema is Telco-style tabular data; production would swap the same pattern for your own column contract.</li></ul></div></section>
+
+                    <section class="proj-section" id="overview">
+  <h2>Overview</h2>
+  <p class="proj-section-intro">
+    The repo implements a single <strong>build entrypoint</strong> that reads a raw CSV (synthetic sample included), applies registered column transforms, and writes a feature table. A compact <strong>validation</strong> pass runs on the result so duplicates, schema gaps, and coarse sanity issues surface as structured summaries—suitable for logs or JSON responses.
+  </p>
+</section>
+
+<section class="proj-section" id="workflow">
+  <h2>Workflow</h2>
+  <div class="pipeline-wrap">
+    <div class="pipeline" role="list">
+      <div class="pipe-step" role="listitem">
+        <span class="step-label">①</span>
+        <span class="step-name">Define in registry</span>
+      </div>
+      <div class="pipe-step" role="listitem">
+        <span class="step-label">②</span>
+        <span class="step-name">Single build step</span>
+      </div>
+      <div class="pipe-step" role="listitem">
+        <span class="step-label">③</span>
+        <span class="step-name">Validate output</span>
+      </div>
+      <div class="pipe-step" role="listitem">
+        <span class="step-label">④</span>
+        <span class="step-name">Same logic via FastAPI</span>
+      </div>
+    </div>
+  </div>
+  <p class="proj-section-intro">
+    Transforms and validation code live under <code>src/features</code> and <code>src/validation</code>. The CLI entry is <code>python -m src.pipeline.build_feature_table</code>; HTTP callers use <code>POST /demo/transform</code> with the same engine.
+  </p>
+</section>
+
+<section class="proj-section" id="features">
+  <h2>Engineered outputs</h2>
+  <p class="proj-section-intro">Eight derived columns plus <code>customer_id</code> (names in code: <code>definitions.py</code>):</p>
+  <ul class="pitch">
+    <li><code>num_active_services</code> — count of active service flags</li>
+    <li><code>is_long_term_contract</code> — contract term bucket</li>
+    <li><code>monthly_charge_band</code> — Low / Medium / High from monthly charge</li>
+    <li><code>charge_per_tenure</code> — ratio with safe handling when tenure is zero</li>
+    <li><code>has_tech_support</code>, <code>is_fiber_user</code>, <code>has_streaming_bundle</code> — boolean signals</li>
+    <li><code>feature_version</code> — constant version string for the build</li>
+  </ul>
+</section>
+
+<section class="proj-section" id="stack">
+  <h2>Tech stack</h2>
+  <div class="stack" role="list">
+    <span class="tag">Python 3.11–3.12 (CI)</span>
+    <span class="tag">pandas</span>
+    <span class="tag">pytest</span>
+    <span class="tag">FastAPI + OpenAPI</span>
+    <span class="tag">GitHub Actions</span>
+  </div>
+  <p class="proj-section-intro">No Streamlit dashboard in repo; interaction is CLI, HTTP upload to <code>/demo/transform</code>, or Swagger.</p>
+</section>
+
+<section class="proj-section" id="deployment">
+  <h2>Deployment / live interface</h2>
+  <p class="proj-section-intro">
+    Canonical service: <strong><a href="https://features.vahdetkaratas.com/" target="_blank" rel="noopener noreferrer">features.vahdetkaratas.com</a></strong>. The app serves <code>GET /</code> when a static UI bundle is deployed under <code>layout-shell/</code>; JSON endpoints and <code>/docs</code> do not depend on that UI. Typical VPS path: install dependencies, run Uvicorn against <code>src.api.main:app</code>, reverse-proxy TLS. Docker is not defined in-repo; a thin image wrapping the same command is enough if you add one later.
+  </p>
+</section>
+
+<section class="proj-section" id="limitations">
+  <h2>Limitations</h2>
+  <ul class="pitch">
+    <li>No online feature store: no point-in-time joins, real-time serving layer, or Feast/Tecton-style materialization.</li>
+    <li>In scope: one-repo pattern for consistent offline features and reviewable validation—not model hosting or training orchestration.</li>
+    <li>Sample raw data is synthetic Telco-style tabular CSV; a real deployment swaps the same contracts for your schema.</li>
+  </ul>
+</section>
+
+<section class="proj-section" id="why">
+  <h2>Why this project</h2>
+  <div class="pitch">
+    <p>
+      It demonstrates <strong>where features come from</strong> and how to keep <strong>batch scoring or retraining</strong> aligned with the same transforms—without claiming a full hosted feature platform. Good fit for code review: small surface, explicit contracts, tests, and an honest limitations block.
+    </p>
+  </div>
+</section>
+
+                  </div>
+
+                  <footer class="batch-project-footer">
+                    <p class="name">Feature Store Mini</p>
+                    <p style="margin:0.35rem 0 0;font-size:0.76rem;">Batch pipeline · definition registry · validation · FastAPI</p>
+                  </footer>
+                </div>
+              </div>
+            </div>
+
+            <div class="container-fluid p-30-0">
+              <footer class="footer">
+                <div class="art-copy">© <span id="shellYear"></span> Vahdettin Karataş. All rights reserved.</div>
+                <div class="footer-developer">Batch preparation, APIs, and checks for small teams — not enterprise feature-store software.</div>
+              </footer>
+            </div>
+          </main>
+        </div>
+
+        <aside class="shell-rail" aria-label="Home">
+          <div class="shell-rail-header">
+            <a class="shell-rail-home" href="https://vahdetlabs.com/" id="shellHomeLink" title="Portfolio home" aria-label="Portfolio home">
+              <svg viewBox="0 0 24 24" aria-hidden="true" class="shell-rail-home-icon">
+                <path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8h5z"/>
+              </svg>
+            </a>
+          </div>
+          <div class="shell-rail-spacer" aria-hidden="true"></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <script src="/layout-shell/shell.js"></script>
+</body>
+</html>

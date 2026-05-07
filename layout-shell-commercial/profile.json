@@ -1,0 +1,30 @@
+{
+  "name": "Vahdettin Karataş",
+  "identity": "Freelance data / ML delivery — batch workflows & internal APIs",
+  "identitySub": "",
+  "location": "Prague, Czech Republic",
+  "portfolioUrl": "https://vahdetlabs.com/",
+  "avatarUrl": "https://vahdetkaratas.com/img/face-1.jpg",
+  "technicalFocus": [
+    "Operational data to model-ready tables",
+    "Reusable transform definitions",
+    "Validation & structured errors",
+    "Internal APIs & automation",
+    "Pilot-sized engagements"
+  ],
+  "reviewSectionTitle": "For client evaluation",
+  "footerLabel": "Capability demo",
+  "footerTagline": "Batch preparation, APIs, and checks for small teams — not enterprise feature-store software.",
+  "socialLinks": [
+    {
+      "label": "GitHub",
+      "href": "https://github.com/vahdetkaratas",
+      "iconClass": "fab fa-github"
+    },
+    {
+      "label": "LinkedIn",
+      "href": "https://linkedin.com/in/vahdetkaratas",
+      "iconClass": "fab fa-linkedin-in"
+    }
+  ]
+}

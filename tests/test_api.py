@@ -32,7 +32,7 @@ def test_root_serves_demo_html(client):
     assert "text/html" in r.headers.get("content-type", "")
     body = r.text
     assert "Feature Store Mini" in body
-    assert "/layout-shell/styles.css" in body
+    assert "/layout-shell/shell.css" in body
     assert "/layout-shell/demo-content.css" in body
 
 
@@ -56,7 +56,7 @@ def test_demo_page_renders(client):
     body = r.text
     assert "Feature Store Mini" in body
     assert "/demo/transform" in body
-    assert 'href="/layout-shell/styles.css"' in body
+    assert 'href="/layout-shell/shell.css"' in body
     assert 'href="/layout-shell/demo-content.css"' in body
 
 

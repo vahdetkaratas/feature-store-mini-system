@@ -1,0 +1,129 @@
+{
+  "assetPrefix": "/layout-shell/",
+  "logoLine1": "Feature",
+  "logoLine2": "store mini",
+  "footerProjectName": "Feature Store Mini",
+  "footerProjectSub": "Batch pipeline · definition registry · validation · FastAPI",
+  "pageTitle": "Feature Store Mini — batch feature workflow",
+  "title": "Feature Store Mini",
+  "heroTitle": "Feature Store Mini",
+  "eyebrow": "Open source · batch workflow",
+  "summary": "A small batch pipeline: raw customer table in, one build step, validated feature table out. Definitions and transforms live in code so the CLI and the HTTP API run the same logic.",
+  "metaDescription": "Batch feature pipeline with a shared definition registry, pandas transforms, validation checks, FastAPI catalog and transform endpoint, and pytest CI.",
+  "themeColor": "#191923",
+  "stack": [
+    "Python · pandas",
+    "pytest · GitHub Actions",
+    "FastAPI · OpenAPI",
+    "Offline batch only"
+  ],
+  "limitations": [
+    "Not an online feature store: no point-in-time joins, no real-time serving layer, no Feast/Tecton-scale materialization.",
+    "Scope is a single-repo pattern for consistent offline features and reviewable validation—not training or model hosting.",
+    "Demo raw schema is Telco-style tabular data; production would swap the same pattern for your own column contract."
+  ],
+  "profiles": {
+    "recruiter": {
+      "eyebrow": "Proof of work · batch ML data discipline",
+      "summary": "Production-minded pattern: one registry for feature meaning, one build path, structured validation, and the same transforms whether you run a CLI job or POST a CSV to FastAPI.",
+      "heroNote": "Same code path in CLI and API; errors use stable codes (e.g. missing raw columns). OpenAPI documents the live service.",
+      "projectLinks": [
+        {
+          "label": "GitHub",
+          "href": "https://github.com/vahdetkaratas/feature-store-mini-system",
+          "external": true
+        },
+        {
+          "label": "Live service",
+          "href": "https://features.vahdetkaratas.com/",
+          "external": true
+        },
+        {
+          "label": "OpenAPI",
+          "href": "https://features.vahdetkaratas.com/docs",
+          "external": true
+        }
+      ],
+      "reviewLinks": [
+        {
+          "label": "Live feature service",
+          "href": "https://features.vahdetkaratas.com/",
+          "external": true
+        },
+        {
+          "label": "Feature API (OpenAPI)",
+          "href": "https://features.vahdetkaratas.com/docs",
+          "external": true
+        },
+        {
+          "label": "GitHub repository",
+          "href": "https://github.com/vahdetkaratas/feature-store-mini-system",
+          "external": true
+        },
+        {
+          "label": "Portfolio / CV",
+          "href": "https://vahdetkaratas.com/",
+          "external": true
+        }
+      ],
+      "relatedSystems": [
+        {
+          "label": "Portfolio",
+          "href": "https://vahdetkaratas.com/",
+          "external": true
+        }
+      ]
+    },
+    "commercial": {
+      "eyebrow": "Pilot capability · repeatable feature prep",
+      "summary": "Turn an agreed raw export into a model-ready feature table with named transforms and checks—useful for pilots where spreadsheets and ad-hoc scripts drift apart.",
+      "heroNote": "Framed as workflow discipline, not a replacement for enterprise feature platforms. Live demo and API docs reflect the same shipped code.",
+      "projectLinks": [
+        {
+          "label": "Open workflow demo",
+          "href": "https://features.vahdetkaratas.com/",
+          "external": true
+        },
+        {
+          "label": "Discuss a use case",
+          "href": "https://vahdetlabs.com/contact",
+          "external": true
+        },
+        {
+          "label": "Vahdetlabs",
+          "href": "https://vahdetlabs.com/",
+          "external": true
+        }
+      ],
+      "reviewLinks": [
+        {
+          "label": "Feature workflow demo",
+          "href": "https://features.vahdetkaratas.com/",
+          "external": true
+        },
+        {
+          "label": "API reference (OpenAPI)",
+          "href": "https://features.vahdetkaratas.com/docs",
+          "external": true
+        },
+        {
+          "label": "Contact",
+          "href": "https://vahdetlabs.com/contact",
+          "external": true
+        },
+        {
+          "label": "Vahdetlabs",
+          "href": "https://vahdetlabs.com/",
+          "external": true
+        }
+      ],
+      "relatedSystems": [
+        {
+          "label": "Vahdetlabs",
+          "href": "https://vahdetlabs.com/",
+          "external": true
+        }
+      ]
+    }
+  }
+}

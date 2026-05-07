@@ -1,0 +1,83 @@
+<section class="proj-section" id="overview">
+  <h2>Overview</h2>
+  <p class="proj-section-intro">
+    The repo implements a single <strong>build entrypoint</strong> that reads a raw CSV (synthetic sample included), applies registered column transforms, and writes a feature table. A compact <strong>validation</strong> pass runs on the result so duplicates, schema gaps, and coarse sanity issues surface as structured summaries—suitable for logs or JSON responses.
+  </p>
+</section>
+
+<section class="proj-section" id="workflow">
+  <h2>Workflow</h2>
+  <div class="pipeline-wrap">
+    <div class="pipeline" role="list">
+      <div class="pipe-step" role="listitem">
+        <span class="step-label">①</span>
+        <span class="step-name">Define in registry</span>
+      </div>
+      <div class="pipe-step" role="listitem">
+        <span class="step-label">②</span>
+        <span class="step-name">Single build step</span>
+      </div>
+      <div class="pipe-step" role="listitem">
+        <span class="step-label">③</span>
+        <span class="step-name">Validate output</span>
+      </div>
+      <div class="pipe-step" role="listitem">
+        <span class="step-label">④</span>
+        <span class="step-name">Same logic via FastAPI</span>
+      </div>
+    </div>
+  </div>
+  <p class="proj-section-intro">
+    Transforms and validation code live under <code>src/features</code> and <code>src/validation</code>. The CLI entry is <code>python -m src.pipeline.build_feature_table</code>; HTTP callers use <code>POST /demo/transform</code> with the same engine.
+  </p>
+</section>
+
+<section class="proj-section" id="features">
+  <h2>Engineered outputs</h2>
+  <p class="proj-section-intro">Eight derived columns plus <code>customer_id</code> (names in code: <code>definitions.py</code>):</p>
+  <ul class="pitch">
+    <li><code>num_active_services</code> — count of active service flags</li>
+    <li><code>is_long_term_contract</code> — contract term bucket</li>
+    <li><code>monthly_charge_band</code> — Low / Medium / High from monthly charge</li>
+    <li><code>charge_per_tenure</code> — ratio with safe handling when tenure is zero</li>
+    <li><code>has_tech_support</code>, <code>is_fiber_user</code>, <code>has_streaming_bundle</code> — boolean signals</li>
+    <li><code>feature_version</code> — constant version string for the build</li>
+  </ul>
+</section>
+
+<section class="proj-section" id="stack">
+  <h2>Tech stack</h2>
+  <div class="stack" role="list">
+    <span class="tag">Python 3.11–3.12 (CI)</span>
+    <span class="tag">pandas</span>
+    <span class="tag">pytest</span>
+    <span class="tag">FastAPI + OpenAPI</span>
+    <span class="tag">GitHub Actions</span>
+  </div>
+  <p class="proj-section-intro">No Streamlit dashboard in repo; interaction is CLI, HTTP upload to <code>/demo/transform</code>, or Swagger.</p>
+</section>
+
+<section class="proj-section" id="deployment">
+  <h2>Deployment / live interface</h2>
+  <p class="proj-section-intro">
+    Canonical service: <strong><a href="https://features.vahdetkaratas.com/" target="_blank" rel="noopener noreferrer">features.vahdetkaratas.com</a></strong>. The app serves <code>GET /</code> when a static UI bundle is deployed under <code>layout-shell/</code>; JSON endpoints and <code>/docs</code> do not depend on that UI. Typical VPS path: install dependencies, run Uvicorn against <code>src.api.main:app</code>, reverse-proxy TLS. Docker is not defined in-repo; a thin image wrapping the same command is enough if you add one later.
+  </p>
+</section>
+
+<section class="proj-section" id="limitations">
+  <h2>Limitations</h2>
+  <ul class="pitch">
+    <li>No online feature store: no point-in-time joins, real-time serving layer, or Feast/Tecton-style materialization.</li>
+    <li>In scope: one-repo pattern for consistent offline features and reviewable validation—not model hosting or training orchestration.</li>
+    <li>Sample raw data is synthetic Telco-style tabular CSV; a real deployment swaps the same contracts for your schema.</li>
+  </ul>
+</section>
+
+<section class="proj-section" id="why">
+  <h2>Why this project</h2>
+  <div class="pitch">
+    <p>
+      It demonstrates <strong>where features come from</strong> and how to keep <strong>batch scoring or retraining</strong> aligned with the same transforms—without claiming a full hosted feature platform. Good fit for code review: small surface, explicit contracts, tests, and an honest limitations block.
+    </p>
+  </div>
+</section>
