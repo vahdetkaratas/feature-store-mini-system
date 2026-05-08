@@ -12,7 +12,7 @@ node shell/render-shell.mjs --project shell/projects/feature-store.json --body s
 node shell/render-shell.mjs --project shell/projects/feature-store.json --body shell/body/feature-store-commercial.html --out layout-shell-commercial --profile commercial
 ```
 
-Outputs include `index.html`, `shell.css`, `demo-content.css`, `shell.js`, `favicon.svg`, and `profile.json`. Asset URLs use `/layout-shell/` so they match a co-located FastAPI static mount if you use one.
+Outputs include `index.html`, `shell.css`, `demo-content.css`, `shell.js`, `favicon.svg`, and `profile.json`. Recruiter build uses `/layout-shell/` as `<base href>` (matches FastAPI `StaticFiles` on **`/layout-shell`**). **Commercial** profile overrides `assetPrefix` to **`/`** so static deploys at **`feature-store.vahdetlabs.com`** root resolve `shell.css` and `favicon.svg` correctly.
 
 **Commit policy:** `layout-shell/` (recruiter) and `layout-shell-commercial/` are tracked so clones match CI and deploys without running Node first. Re-render and commit after any change under `shell/`.
 

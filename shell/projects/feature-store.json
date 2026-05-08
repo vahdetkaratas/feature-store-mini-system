@@ -129,6 +129,7 @@
       ]
     },
     "commercial": {
+      "assetPrefix": "/",
       "featuresPublicUrl": "https://features.vahdetlabs.com/",
       "featuresDocsUrl": "https://features.vahdetlabs.com/docs",
       "eyebrow": "Pilot capability · repeatable feature prep",
