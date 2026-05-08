@@ -93,9 +93,39 @@
 
   function apiOrigin() {
     var meta = document.querySelector('meta[name="fs-api-origin"]');
-    var fromMeta = meta && meta.getAttribute("content") && meta.getAttribute("content").trim();
-    if (fromMeta) return fromMeta.replace(/\/$/, "");
-    if (window.location.protocol === "file:") return "http://127.0.0.1:8000";
+    var raw = meta && meta.getAttribute("content");
+    var fromMeta = raw && raw.trim() ? raw.trim().replace(/\/$/, "") : "";
+
+    if (window.location.protocol === "file:") {
+      if (fromMeta) return fromMeta;
+      return "http://127.0.0.1:8000";
+    }
+
+    var host = (window.location.hostname || "").toLowerCase();
+    var isLocal =
+      host === "localhost" ||
+      host === "127.0.0.1" ||
+      host === "[::1]" ||
+      host.endsWith(".localhost");
+
+    // Local dev: always call the API on the same origin as this page (ignore production meta).
+    if (isLocal) {
+      return window.location.origin;
+    }
+
+    // Co-hosted UI + API (e.g. https://features.example.com/layout-shell/...): same hostname as meta.
+    if (fromMeta) {
+      try {
+        var metaHost = new URL(fromMeta).hostname.toLowerCase();
+        if (metaHost === host) {
+          return window.location.origin;
+        }
+      } catch (e) {
+        /* use meta string below */
+      }
+      return fromMeta;
+    }
+
     try {
       return new URL("..", window.location.href).href.replace(/\/$/, "");
     } catch (e) {
