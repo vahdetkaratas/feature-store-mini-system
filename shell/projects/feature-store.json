@@ -23,11 +23,6 @@
   ],
   "relatedMlSystems": [
     {
-      "label": "Portfolio",
-      "href": "https://vahdetkaratas.com/portfolio",
-      "external": true
-    },
-    {
       "label": "Batch scoring",
       "href": "https://batch-scoring.vahdetlabs.com/",
       "external": true
@@ -35,11 +30,6 @@
     {
       "label": "Feature store",
       "href": "https://feature-store.vahdetlabs.com/",
-      "external": true
-    },
-    {
-      "label": "Vahdetlabs",
-      "href": "https://vahdetlabs.com/",
       "external": true
     },
     {
@@ -131,11 +121,6 @@
           "label": "GitHub repository",
           "href": "https://github.com/vahdetkaratas/feature-store-mini-system",
           "external": true
-        },
-        {
-          "label": "Portfolio / CV",
-          "href": "https://vahdetkaratas.com/",
-          "external": true
         }
       ]
     },
@@ -222,11 +207,6 @@
       ],
       "relatedMlSystems": [
         {
-          "label": "Portfolio",
-          "href": "https://vahdetkaratas.com/portfolio",
-          "external": true
-        },
-        {
           "label": "Batch scoring",
           "href": "https://batch-scoring.vahdetlabs.com/",
           "external": true
@@ -234,11 +214,6 @@
         {
           "label": "Feature store",
           "href": "https://feature-store.vahdetlabs.com/",
-          "external": true
-        },
-        {
-          "label": "Vahdetlabs",
-          "href": "https://vahdetlabs.com/",
           "external": true
         },
         {

@@ -3,7 +3,7 @@
   "identity": "Data & ML engineering — batch pipelines, APIs, validation",
   "identitySub": "",
   "location": "Prague, Czech Republic",
-  "portfolioUrl": "https://vahdetkaratas.com/",
+  "portfolioUrl": "https://github.com/vahdetkaratas",
   "avatarUrl": "https://vahdetkaratas.com/img/face-1.jpg",
   "technicalFocus": [
     "Batch feature pipelines",
@@ -15,8 +15,8 @@
   "reviewSectionTitle": "For hiring review",
   "footerLabel": "Portfolio artifact",
   "footerTagline": "Batch data workflows, validation, and HTTP APIs.",
-  "railHomeTitle": "Portfolio home",
-  "railAsideLabel": "Portfolio",
+  "railHomeTitle": "GitHub profile",
+  "railAsideLabel": "GitHub",
   "socialLinks": [
     {
       "label": "GitHub",

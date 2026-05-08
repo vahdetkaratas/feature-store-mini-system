@@ -19,11 +19,6 @@
   "railAsideLabel": "VahdetLabs",
   "socialLinks": [
     {
-      "label": "Portfolio",
-      "href": "https://vahdetkaratas.com/portfolio",
-      "iconClass": "fas fa-briefcase"
-    },
-    {
       "label": "GitHub",
       "href": "https://github.com/vahdetkaratas",
       "iconClass": "fab fa-github"
