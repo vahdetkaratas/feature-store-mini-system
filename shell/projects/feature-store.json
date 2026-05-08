@@ -86,7 +86,7 @@
       "featuresDocsUrl": "https://features.vahdetkaratas.com/docs",
       "eyebrow": "Proof of work · batch ML data discipline",
       "summary": "Production-minded pattern: one registry for feature meaning, one build path, structured validation, and the same transforms whether you run a CLI job or POST a CSV to FastAPI.",
-      "heroNote": "Same code path in CLI and API; errors use stable codes (e.g. missing raw columns). OpenAPI documents the live service.",
+      "heroNote": "Same code path in CLI and API; errors use stable codes (e.g. missing raw columns).",
       "demoPageTitle": "Feature Store Mini — interactive demo",
       "demoMetaDescription": "Upload a churn-style CSV or run the bundled sample via POST /demo/transform — same engine as the CLI.",
       "interactiveDemoEyebrow": "Portfolio · interactive pipeline demo",
@@ -102,27 +102,29 @@
           "label": "Interactive demo",
           "href": "portfolio-demo.html",
           "external": false
-        },
+        }
+      ],
+      "demoProjectLinks": [
         {
-          "label": "Live service",
-          "href": "https://features.vahdetkaratas.com/",
+          "label": "GitHub",
+          "href": "https://github.com/vahdetkaratas/feature-store-mini-system",
           "external": true
         },
         {
-          "label": "OpenAPI",
-          "href": "https://features.vahdetkaratas.com/docs",
-          "external": true
+          "label": "Project overview",
+          "href": "index.html",
+          "external": false
         }
       ],
       "reviewLinks": [
         {
-          "label": "Live feature service",
-          "href": "https://features.vahdetkaratas.com/",
-          "external": true
+          "label": "Interactive demo",
+          "href": "portfolio-demo.html",
+          "external": false
         },
         {
-          "label": "Feature API (OpenAPI)",
-          "href": "https://features.vahdetkaratas.com/docs",
+          "label": "Live feature service",
+          "href": "https://features.vahdetkaratas.com/",
           "external": true
         },
         {
@@ -142,7 +144,7 @@
       "featuresDocsUrl": "https://features.vahdetlabs.com/docs",
       "eyebrow": "Pilot capability · repeatable feature prep",
       "summary": "Turn an agreed raw export into a model-ready feature table with named transforms and checks—useful for pilots where spreadsheets and ad-hoc scripts drift apart.",
-      "heroNote": "Scoped pilot pattern—not SaaS or a full data platform. OpenAPI supports technical diligence; the outcome is a repeatable table, not novelty UI.",
+      "heroNote": "Scoped pilot pattern—not SaaS or a full data platform. Outcome is a repeatable table with clear technical boundaries.",
       "demoPageTitle": "Feature Store Mini — try the pipeline",
       "demoMetaDescription": "Pilot CSV → feature table on the live API; same transforms as in-repo batch and HTTP contracts.",
       "interactiveDemoEyebrow": "Pilot · try the pipeline in the browser",
@@ -164,11 +166,6 @@
       "footerProjectSub": "Named transforms · validation · pilot scope — not a SaaS data platform.",
       "projectLinks": [
         {
-          "label": "Open workflow demo",
-          "href": "https://features.vahdetlabs.com/",
-          "external": true
-        },
-        {
           "label": "Interactive demo",
           "href": "portfolio-demo.html",
           "external": false
@@ -184,15 +181,32 @@
           "external": true
         }
       ],
-      "reviewLinks": [
+      "demoProjectLinks": [
         {
-          "label": "Feature workflow demo",
-          "href": "https://features.vahdetlabs.com/",
+          "label": "Discuss a use case",
+          "href": "https://vahdetlabs.com/contact",
           "external": true
         },
         {
-          "label": "API reference (OpenAPI)",
-          "href": "https://features.vahdetlabs.com/docs",
+          "label": "Vahdetlabs",
+          "href": "https://vahdetlabs.com/",
+          "external": true
+        },
+        {
+          "label": "Project overview",
+          "href": "index.html",
+          "external": false
+        }
+      ],
+      "reviewLinks": [
+        {
+          "label": "Interactive demo",
+          "href": "portfolio-demo.html",
+          "external": false
+        },
+        {
+          "label": "Feature workflow demo",
+          "href": "https://features.vahdetlabs.com/",
           "external": true
         },
         {

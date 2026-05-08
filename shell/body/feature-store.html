@@ -54,13 +54,13 @@
     <span class="tag">FastAPI + OpenAPI</span>
     <span class="tag">GitHub Actions</span>
   </div>
-  <p class="proj-section-intro">No Streamlit dashboard in repo; interaction is CLI, HTTP upload to <code>/demo/transform</code>, or Swagger.</p>
+  <p class="proj-section-intro">No Streamlit dashboard in repo; interaction is CLI, HTTP upload to <code>/demo/transform</code>, or the interactive demo on this site.</p>
 </section>
 
 <section class="proj-section" id="deployment">
   <h2>Deployment / live interface</h2>
   <p class="proj-section-intro">
-    API host for this build: <strong><a href="{{FEATURES_PUBLIC_URL}}" target="_blank" rel="noopener noreferrer">{{FEATURES_PUBLIC_URL}}</a></strong> · <a href="{{FEATURES_DOCS_URL}}" target="_blank" rel="noopener noreferrer">OpenAPI</a>. The FastAPI app can serve <code>GET /</code> only when a UI bundle is present beside the process; otherwise the root redirects to <code>/docs</code>. Static marketing pages use the shell output folders on <code>feature-store.*</code> hostnames.
+    API host for this build: <strong><a href="{{FEATURES_PUBLIC_URL}}" target="_blank" rel="noopener noreferrer">{{FEATURES_PUBLIC_URL}}</a></strong>. The FastAPI app can serve <code>GET /</code> only when a UI bundle is present beside the process; otherwise the root redirects to the interactive docs path. Static marketing pages use the shell output folders on <code>feature-store.*</code> hostnames.
   </p>
 </section>
 

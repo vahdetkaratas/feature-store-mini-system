@@ -66,6 +66,15 @@
   padding: 1.35rem 0 1.75rem;
   border-bottom: 1px solid var(--border);
 }
+.batch-page header .batch-header-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.65rem;
+  flex: 1;
+  min-width: 0;
+}
 .batch-page .logo {
   font-weight: 700;
   font-size: 0.88rem;

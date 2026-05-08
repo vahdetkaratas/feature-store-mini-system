@@ -1,15 +1,16 @@
 /**
  * Portfolio interactive demo (fs-*) — uses tokens from shell.css :root
  */
-.fs-demo-nav {
-  margin-bottom: 1rem;
-}
 .shell-content .fs-deck {
-  max-width: 52rem;
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  padding-right: 0;
 }
 
 .fs-hero {
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
+  padding-top: 0.25rem;
 }
 .fs-eyebrow {
   margin: 0 0 0.5rem;
@@ -20,19 +21,19 @@
   color: var(--main-color);
 }
 .fs-title {
-  margin: 0 0 0.65rem;
-  font-size: 1.75rem;
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.45rem, 2.5vw, 1.85rem);
   font-weight: 600;
   color: var(--text-1);
-  letter-spacing: normal;
-  line-height: 1.2;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
 }
 .fs-subtitle {
-  margin: 0 0 1.25rem;
-  font-size: 0.95rem;
-  line-height: 1.6;
+  margin: 0 0 1.5rem;
+  font-size: 1rem;
+  line-height: 1.65;
   color: var(--text-2);
-  max-width: 48ch;
+  max-width: min(42rem, 100%);
 }
 .fs-stats {
   display: flex;
@@ -62,20 +63,21 @@
 }
 
 .fs-section {
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
 }
 .fs-section-title {
-  margin: 0 0 0.85rem;
-  font-size: 1.05rem;
+  margin: 0 0 1rem;
+  font-size: 1.08rem;
   font-weight: 600;
   color: var(--text-1);
   letter-spacing: normal;
 }
 .fs-section-lead {
-  margin: 0 0 1rem;
-  font-size: 0.88rem;
+  margin: 0 0 1.15rem;
+  font-size: 0.92rem;
   color: var(--text-2);
-  line-height: 1.55;
+  line-height: 1.6;
+  max-width: min(40rem, 100%);
 }
 
 .fs-flow {
@@ -124,15 +126,16 @@
 
 .fs-run-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
-  gap: 1.25rem;
-  margin-bottom: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 .fs-run-card {
-  padding: 1.15rem 1.2rem;
+  padding: 1.35rem 1.4rem;
+  min-height: 100%;
   background: linear-gradient(159deg, var(--card-a) 0%, var(--card-b) 100%);
   border: 1px solid var(--border-soft);
-  border-radius: 10px;
+  border-radius: 12px;
   box-shadow: var(--shadow-2);
 }
 .fs-run-card-title {
@@ -172,6 +175,10 @@
   color: var(--text-3);
   margin-bottom: 0.35rem;
 }
+.fs-file-label .fs-optional {
+  font-weight: 400;
+  color: var(--text-3);
+}
 .fs-file-input {
   font-size: 0.85rem;
   color: var(--text-1);
@@ -205,6 +212,18 @@
 .fs-form-actions--split {
   justify-content: space-between;
   align-items: center;
+}
+.fs-form-actions--stacked {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.75rem;
+}
+.fs-btn--wide {
+  width: 100%;
+}
+.fs-btn i {
+  margin-right: 0.35rem;
+  opacity: 0.9;
 }
 .fs-muted {
   margin: 0;
@@ -350,14 +369,16 @@
   background: rgba(240, 128, 112, 0.08);
   border: 1px solid rgba(240, 128, 112, 0.35);
   border-radius: 8px;
-  max-width: 52rem;
+  max-width: none;
+  width: 100%;
 }
 
 .fs-results {
-  margin-top: 2rem;
-  padding-top: 1.5rem;
+  margin-top: 2.5rem;
+  padding-top: 1.75rem;
   border-top: 1px solid var(--border-soft);
-  max-width: 52rem;
+  max-width: none;
+  width: 100%;
 }
 .fs-results-title {
   margin-bottom: 0.35rem;

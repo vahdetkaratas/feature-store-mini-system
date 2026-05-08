@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
   <link rel="stylesheet" href="shell.css">
   <link rel="stylesheet" href="demo-content.css">
-  <meta name="fs-api-origin" content="http://127.0.0.1:8000">
+  <meta name="fs-api-origin" content="https://features.vahdetlabs.com">
   <link rel="stylesheet" href="fs-portfolio-demo.css">
 </head>
 <body>
@@ -66,8 +66,8 @@
             <div class="art-knowledge-block p-30-15">
               <h6 class="mb-15">For client evaluation</h6>
               <ul class="art-knowledge-list p-15-0">
-                <li><a href="https://features.vahdetlabs.com/" target="_blank" rel="noopener noreferrer">Feature workflow demo</a></li>
-<li><a href="https://features.vahdetlabs.com/docs" target="_blank" rel="noopener noreferrer">API reference (OpenAPI)</a></li>
+                <li><a href="portfolio-demo.html">Interactive demo</a></li>
+<li><a href="https://features.vahdetlabs.com/" target="_blank" rel="noopener noreferrer">Feature workflow demo</a></li>
 <li><a href="https://vahdetlabs.com/contact" target="_blank" rel="noopener noreferrer">Contact</a></li>
 <li><a href="https://vahdetlabs.com/" target="_blank" rel="noopener noreferrer">Vahdetlabs</a></li>
               </ul>
@@ -105,22 +105,23 @@
                 <div class="wrap">
                   <header>
                     <div class="logo" id="top">Feature <span>store mini</span></div>
-                    <div class="nav-actions">
-                      <a class="btn btn-primary" href="https://features.vahdetlabs.com/" target="_blank" rel="noopener noreferrer">Open workflow demo</a>
-<a class="btn btn-ghost" href="portfolio-demo.html">Interactive demo</a>
-<a class="btn btn-ghost" href="https://vahdetlabs.com/contact" target="_blank" rel="noopener noreferrer">Discuss a use case</a>
+                    <div class="batch-header-tools">
+                      
+                      <div class="nav-actions">
+                        <a class="btn btn-primary" href="https://vahdetlabs.com/contact" target="_blank" rel="noopener noreferrer">Discuss a use case</a>
 <a class="btn btn-ghost" href="https://vahdetlabs.com/" target="_blank" rel="noopener noreferrer">Vahdetlabs</a>
+<a class="btn btn-ghost" href="index.html">Project overview</a>
+                      </div>
                     </div>
                   </header>
 
                   <div id="main">
-                                        <div class="fs-demo-nav"><a class="btn btn-ghost" href="index.html">← Project overview</a></div>
+                    
 
-
-                    <article class="fs-deck batch-page">
+                    <article class="fs-deck">
   <header class="fs-hero">
     <p class="fs-eyebrow">Pilot · try the pipeline in the browser</p>
-    <h1 class="fs-title">Feature Store Mini</h1>
+    <h1 class="fs-title">Interactive pipeline demo</h1>
     <p class="fs-subtitle">
       Agreed operational extract in → model-ready feature table out. One build path you can schedule or call over HTTP — useful before bigger platform commitments.
     </p>
@@ -152,26 +153,26 @@
 
   <section class="fs-section" aria-labelledby="fs-run-heading">
     <h2 id="fs-run-heading" class="fs-section-title">Run the pipeline</h2>
-    <p class="fs-section-lead">Same logic two ways: upload here (FastAPI) or run locally from the repo root.</p>
+    <p class="fs-section-lead">Upload your own churn-style CSV, or run the bundled synthetic sample — no local file required. Same engine as <code>POST /demo/transform</code> on the API host.</p>
 
     <div class="fs-run-grid">
       <div class="fs-run-card fs-run-card--live">
-        <h3 class="fs-run-card-title"><i class="fas fa-bolt" aria-hidden="true"></i> Live on this server</h3>
-        <p class="fs-run-card-lead">Upload a raw <code>.csv</code> (max 2&nbsp;MB), or run the repo&rsquo;s synthetic sample with one click.</p>
+        <h3 class="fs-run-card-title"><i class="fas fa-bolt" aria-hidden="true"></i> Live on the API host</h3>
+        <p class="fs-run-card-lead">Upload a raw <code>.csv</code> (max 2&nbsp;MB), or use <strong>Try bundled sample</strong> to fetch <code>sample_raw.csv</code> from the service (~250 synthetic rows).</p>
         <form id="fs-form" class="fs-form-compact" aria-label="Run pipeline on CSV">
           <div class="fs-form-row">
-            <label class="fs-file-label" for="fs-file">CSV file</label>
+            <label class="fs-file-label" for="fs-file">CSV file <span class="fs-optional">(optional if you use the sample)</span></label>
             <input type="file" id="fs-file" name="file" accept=".csv,text/csv" class="fs-file-input">
           </div>
           <div class="fs-form-row fs-form-row--tight">
             <label class="fs-check-label"><input type="checkbox" id="fs-strict" name="strict"> Strict mode — reject required columns that are 100% null</label>
           </div>
-          <p class="fs-sample-hint">No file handy? One click loads the same <code>sample_raw.csv</code> as the CLI default (~250 synthetic rows).</p>
-          <div class="fs-form-actions fs-form-actions--split">
-            <button type="button" class="fs-btn fs-btn--ghost" id="fs-sample-btn">Try bundled sample</button>
-            <button type="submit" class="fs-btn fs-btn--primary" id="fs-submit">Run pipeline</button>
+          <div class="fs-form-actions fs-form-actions--stacked">
+            <button type="button" class="fs-btn fs-btn--primary fs-btn--wide" id="fs-sample-btn"><i class="fas fa-vial" aria-hidden="true"></i> Try bundled sample</button>
+            <button type="submit" class="fs-btn fs-btn--ghost fs-btn--wide" id="fs-submit"><i class="fas fa-play" aria-hidden="true"></i> Run pipeline on selected file</button>
           </div>
-          <p class="fs-muted">Schema: churn-style columns (e.g. tenure, Contract, services). <a href="https://features.vahdetlabs.com/docs" target="_blank" rel="noopener noreferrer">OpenAPI</a></p>
+          <p class="fs-sample-hint">The sample button calls the deployed API (<code>GET /demo/sample-raw.csv</code>) then <code>POST /demo/transform</code> — works from this static page when the API allows cross-origin requests.</p>
+          <p class="fs-muted">Schema: churn-style columns (e.g. tenure, Contract, services).</p>
         </form>
       </div>
 
@@ -187,10 +188,9 @@
       </div>
     </div>
 
-    <nav class="fs-quick-links" aria-label="API shortcuts">
-      <a href="/docs" class="fs-quick-link" target="_blank" rel="noopener noreferrer"><i class="fas fa-book" aria-hidden="true"></i> Swagger</a>
-      <a href="/features" class="fs-quick-link"><i class="fas fa-list-ul" aria-hidden="true"></i> Feature catalog</a>
-      <a href="/health" class="fs-quick-link"><i class="fas fa-heartbeat" aria-hidden="true"></i> Health</a>
+    <nav class="fs-quick-links" aria-label="Live service checks">
+      <a href="https://features.vahdetlabs.com/features" class="fs-quick-link"><i class="fas fa-list-ul" aria-hidden="true"></i> Feature catalog</a>
+      <a href="https://features.vahdetlabs.com/health" class="fs-quick-link"><i class="fas fa-heartbeat" aria-hidden="true"></i> Health</a>
     </nav>
   </section>
 </article>

@@ -91,15 +91,23 @@
     return d.innerHTML;
   }
 
+  function apiOrigin() {
+    var meta = document.querySelector('meta[name="fs-api-origin"]');
+    var fromMeta = meta && meta.getAttribute("content") && meta.getAttribute("content").trim();
+    if (fromMeta) return fromMeta.replace(/\/$/, "");
+    if (window.location.protocol === "file:") return "http://127.0.0.1:8000";
+    try {
+      return new URL("..", window.location.href).href.replace(/\/$/, "");
+    } catch (e) {
+      return "";
+    }
+  }
+
   function apiUrl(pathWithOptionalQuery) {
     var path = pathWithOptionalQuery.charAt(0) === "/" ? pathWithOptionalQuery.slice(1) : pathWithOptionalQuery;
-    if (window.location.protocol === "file:") {
-      var meta = document.querySelector('meta[name="fs-api-origin"]');
-      var origin = (meta && meta.getAttribute("content") || "").trim().replace(/\/$/, "");
-      if (!origin) origin = "http://127.0.0.1:8000";
-      return origin + "/" + path;
-    }
-    return new URL("../" + path, window.location.href).href;
+    var origin = apiOrigin();
+    if (!origin) return path;
+    return origin + "/" + path;
   }
 
   function setRunLoading(on, spinner) {
@@ -126,13 +134,15 @@
     });
   }
 
-  function postTransform(file) {
+  function postTransform(file, opts) {
+    opts = opts || {};
+    var spinner = opts.spinner === "sample" ? "sample" : "submit";
     var strict = document.getElementById("fs-strict").checked;
     var url = apiUrl("/demo/transform" + (strict ? "?strict=true" : ""));
     var fd = new FormData();
     fd.append("file", file);
 
-    setRunLoading(true, "submit");
+    setRunLoading(true, spinner);
     fetch(url, { method: "POST", body: fd })
       .then(parseFetchResponse)
       .then(function (r) {
@@ -196,7 +206,7 @@
         setRunLoading(false);
         var msg = err.message || String(err);
         if (msg === "Failed to fetch" || (err && err.name === "TypeError")) {
-          msg += "\n\nIf you opened this page from disk (file://), start the API and set fs-api-origin in the page head, or open the app over http(s).";
+          msg += "\n\nCheck that the API is running and that this page’s fs-api-origin meta points to it (or open the UI from the same host as the API under /layout-shell/).";
         }
         showError(msg);
       });
@@ -221,13 +231,13 @@
         .then(function (blob) {
           if (!blob) return;
           var file = new File([blob], "sample_raw.csv", { type: "text/csv" });
-          postTransform(file);
+          postTransform(file, { spinner: "sample" });
         })
         .catch(function (err) {
           setRunLoading(false);
           var msg = err.message || String(err);
           if (msg === "Failed to fetch" || (err && err.name === "TypeError")) {
-            msg += "\n\nIf you opened from disk (file://), start the API or open over http(s).";
+            msg += "\n\nEnsure the API serves GET /demo/sample-raw.csv and allows requests from this origin (CORS), or open the demo from the API host.";
           }
           showError(msg);
         });

@@ -24,8 +24,7 @@ const MAIN_TOP_FULL = `                    <section class="hero">
                     {{LIMITATIONS_SECTION_HTML}}
 `;
 
-const MAIN_TOP_DEMO = `                    <div class="fs-demo-nav"><a class="btn btn-ghost" href="index.html">← Project overview</a></div>
-`;
+const MAIN_TOP_DEMO = "";
 
 function usage() {
   console.error(
@@ -152,9 +151,16 @@ function mergeProject(baseProject, profileName) {
 }
 
 function applyFeaturesUrls(bodyHtml, featuresPublicUrl, featuresDocsUrl) {
+  const base = String(featuresPublicUrl).replace(/\/+$/, "");
+  const pub = `${base}/`;
+  const docs = String(featuresDocsUrl);
+  const health = `${base}/health`;
+  const catalog = `${base}/features`;
   return bodyHtml
-    .replaceAll("{{FEATURES_PUBLIC_URL}}", escapeHtml(featuresPublicUrl))
-    .replaceAll("{{FEATURES_DOCS_URL}}", escapeHtml(featuresDocsUrl));
+    .replaceAll("{{FEATURES_PUBLIC_URL}}", escapeHtml(pub))
+    .replaceAll("{{FEATURES_DOCS_URL}}", escapeHtml(docs))
+    .replaceAll("{{FEATURES_HEALTH_URL}}", escapeHtml(health))
+    .replaceAll("{{FEATURES_CATALOG_URL}}", escapeHtml(catalog));
 }
 
 function applyInteractivePlaceholders(bodyHtml, project) {
@@ -181,6 +187,8 @@ function renderHtml(
     bodyHtml,
     mainTopHtml,
     headExtraHtml,
+    headerNavExtraHtml,
+    navLinkItems,
     pageTitle,
     metaDescription,
     themeColor,
@@ -195,8 +203,10 @@ function renderHtml(
     railAsideLabel,
   }
 ) {
+  const headerNav = navLinkItems ?? project.projectLinks ?? [];
   return template
     .replaceAll("{{HEAD_EXTRA_HTML}}", headExtraHtml)
+    .replaceAll("{{HEADER_NAV_EXTRA_HTML}}", headerNavExtraHtml || "")
     .replaceAll("{{MAIN_TOP_HTML}}", mainTopHtml)
     .replaceAll("{{PAGE_TITLE}}", escapeHtml(pageTitle))
     .replaceAll("{{META_DESCRIPTION}}", escapeHtml(metaDescription))
@@ -225,7 +235,7 @@ function renderHtml(
     )
     .replaceAll("{{LOGO_LINE_1}}", escapeHtml(logo1))
     .replaceAll("{{LOGO_LINE_2}}", escapeHtml(logo2))
-    .replaceAll("{{NAV_BUTTONS}}", ctaButtons(project.projectLinks || []))
+    .replaceAll("{{NAV_BUTTONS}}", ctaButtons(headerNav))
     .replaceAll(
       "{{PROJECT_EYEBROW}}",
       escapeHtml(project.eyebrow || "Portfolio artifact")
@@ -321,6 +331,7 @@ async function main() {
     bodyHtml,
     mainTopHtml: MAIN_TOP_FULL,
     headExtraHtml: "",
+    headerNavExtraHtml: "",
     pageTitle,
     metaDescription,
   });
@@ -338,10 +349,11 @@ async function main() {
     );
     demoBody = applyInteractivePlaceholders(demoBody, project);
     const demoOriginRaw = project.demoFileApiOrigin;
+    const demoOriginDefault = String(featuresPublicUrl).replace(/\/$/, "");
     const demoOrigin =
       demoOriginRaw != null && String(demoOriginRaw).trim() !== ""
         ? String(demoOriginRaw).trim().replace(/\/$/, "")
-        : "http://127.0.0.1:8000";
+        : demoOriginDefault;
     const headExtraDemo = `<meta name="fs-api-origin" content="${escapeHtml(demoOrigin)}">\n  <link rel="stylesheet" href="fs-portfolio-demo.css">`;
     const demoPageTitle =
       project.demoPageTitle || `${project.title} — interactive demo`;
@@ -355,6 +367,8 @@ async function main() {
       bodyHtml: demoBody,
       mainTopHtml: MAIN_TOP_DEMO,
       headExtraHtml: headExtraDemo,
+      headerNavExtraHtml: "",
+      navLinkItems: project.demoProjectLinks || project.projectLinks || [],
       pageTitle: demoPageTitle,
       metaDescription: demoMeta,
     });
