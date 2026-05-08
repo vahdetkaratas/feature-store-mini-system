@@ -170,10 +170,21 @@
     var strict = document.getElementById("fs-strict").checked;
     var url = apiUrl("/demo/transform" + (strict ? "?strict=true" : ""));
     var fd = new FormData();
-    fd.append("file", file);
+    var isNativeFile = typeof File !== "undefined" && file instanceof File;
+    if (opts.blobFilename && file && !isNativeFile) {
+      fd.append("file", file, opts.blobFilename);
+    } else {
+      fd.append("file", file);
+    }
 
     setRunLoading(true, spinner);
-    fetch(url, { method: "POST", body: fd })
+    fetch(url, {
+      method: "POST",
+      body: fd,
+      mode: "cors",
+      credentials: "omit",
+      cache: "no-store",
+    })
       .then(parseFetchResponse)
       .then(function (r) {
         setRunLoading(false);
@@ -249,7 +260,11 @@
       var cap = document.getElementById("fs-preview-caption");
       if (cap) cap.textContent = "";
       setRunLoading(true, "sample");
-      fetch(apiUrl("/demo/sample-raw.csv"))
+      fetch(apiUrl("/demo/sample-raw.csv"), {
+        mode: "cors",
+        credentials: "omit",
+        cache: "no-store",
+      })
         .then(function (res) {
           if (!res.ok) {
             setRunLoading(false);
@@ -260,8 +275,7 @@
         })
         .then(function (blob) {
           if (!blob) return;
-          var file = new File([blob], "sample_raw.csv", { type: "text/csv" });
-          postTransform(file, { spinner: "sample" });
+          postTransform(blob, { spinner: "sample", blobFilename: "sample_raw.csv" });
         })
         .catch(function (err) {
           setRunLoading(false);
