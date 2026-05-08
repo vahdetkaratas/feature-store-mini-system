@@ -12,16 +12,23 @@
   margin-bottom: 2.5rem;
   padding-top: 0.25rem;
 }
-.fs-eyebrow {
-  margin: 0 0 0.5rem;
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--main-color);
+.fs-hero--centered {
+  text-align: center;
+}
+.fs-hero--centered .fs-title {
+  margin-left: auto;
+  margin-right: auto;
+}
+.fs-hero-context {
+  margin: 0 auto 1rem;
+  max-width: min(36rem, 100%);
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--text-2);
 }
 .fs-title {
-  margin: 0 0 0.75rem;
+  margin: 0 0 0.65rem;
   font-size: clamp(1.45rem, 2.5vw, 1.85rem);
   font-weight: 600;
   color: var(--text-1);
@@ -34,6 +41,13 @@
   line-height: 1.65;
   color: var(--text-2);
   max-width: min(42rem, 100%);
+}
+.fs-subtitle--centered {
+  margin-left: auto;
+  margin-right: auto;
+}
+.fs-hero--centered .fs-stats {
+  justify-content: center;
 }
 .fs-stats {
   display: flex;

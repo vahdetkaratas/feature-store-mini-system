@@ -89,8 +89,8 @@
       "heroNote": "Same code path in CLI and API; errors use stable codes (e.g. missing raw columns).",
       "demoPageTitle": "Feature Store Mini — interactive demo",
       "demoMetaDescription": "Upload a churn-style CSV or run the bundled sample via POST /demo/transform — same engine as the CLI.",
-      "interactiveDemoEyebrow": "Portfolio · interactive pipeline demo",
-      "interactiveDemoLead": "Churn-style raw CSV in → one deterministic build → validated feature table out. Definitions and checks live in code so batch jobs, notebooks, and APIs stay aligned.",
+      "interactiveDemoEyebrow": "Feature Store Mini — batch workflow with one code path for CLI, API, and notebooks.",
+      "interactiveDemoLead": "Upload a CSV or run the bundled Telco-style sample. You get the same feature table and validation summary as the repository and the live service—useful when reviewers want evidence, not slides.",
       "interactiveDemoScopeNote": "Deliberately small: not Feast or Tecton — a reusable pattern for consistent offline features and a clear proof-of-work story.",
       "projectLinks": [
         {
@@ -147,8 +147,8 @@
       "heroNote": "Scoped pilot pattern—not SaaS or a full data platform. Outcome is a repeatable table with clear technical boundaries.",
       "demoPageTitle": "Feature Store Mini — try the pipeline",
       "demoMetaDescription": "Pilot CSV → feature table on the live API; same transforms as in-repo batch and HTTP contracts.",
-      "interactiveDemoEyebrow": "Pilot · try the pipeline in the browser",
-      "interactiveDemoLead": "Agreed operational extract in → model-ready feature table out. One build path you can schedule or call over HTTP — useful before bigger platform commitments.",
+      "interactiveDemoEyebrow": "Feature Store Mini — explicit scope: offline batch features, not a hosted enterprise platform.",
+      "interactiveDemoLead": "Use the bundled sample or your own churn-style CSV. Same transforms and checks you would run in a batch job, surfaced here so technical stakeholders can verify behaviour before larger tooling decisions.",
       "interactiveDemoScopeNote": "Not enterprise Feast/Tecton-scale software or a consumer SaaS — a pilot-sized pattern with honest boundaries.",
       "pageTitle": "Feature Store Mini — pilot feature-prep pattern",
       "metaDescription": "Pilot-sized pattern: turn agreed operational exports into validated, model-ready feature tables with one build path—honest scope, no enterprise feature-store claims.",
