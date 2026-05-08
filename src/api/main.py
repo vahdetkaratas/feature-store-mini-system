@@ -60,13 +60,10 @@ if _LAYOUT_SHELL_DIR.is_dir():
 
 @app.get("/", response_model=None)
 def root_demo_page():
-    """Serve demo HTML when layout-shell exists; otherwise send users to API docs (API-only deploy)."""
+    """Send browser to /layout-shell/ so directory-relative shell.css resolves; skip redirect if demo UI missing."""
     if not LAYOUT_SHELL_INDEX.is_file():
         return RedirectResponse(url="/docs", status_code=302)
-    return FileResponse(
-        path=str(LAYOUT_SHELL_INDEX),
-        media_type="text/html; charset=utf-8",
-    )
+    return RedirectResponse(url="/layout-shell/index.html", status_code=302)
 
 
 @app.get("/health")

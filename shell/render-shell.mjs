@@ -176,13 +176,6 @@ async function main() {
     .replaceAll("{{FEATURES_PUBLIC_URL}}", escapeHtml(featuresPublicUrl))
     .replaceAll("{{FEATURES_DOCS_URL}}", escapeHtml(featuresDocsUrl));
 
-  let assetPrefix = project.assetPrefix;
-  if (assetPrefix == null || String(assetPrefix).trim() === "") {
-    assetPrefix = "/layout-shell/";
-  } else {
-    assetPrefix = String(assetPrefix).replace(/\/?$/, "/");
-  }
-
   const pageTitle =
     project.pageTitle || `${project.title} - ${profile.name}`;
   const metaDescription = project.metaDescription || project.summary;
@@ -198,7 +191,6 @@ async function main() {
   const railAsideLabel = profile.railAsideLabel || "Home";
 
   const rendered = template
-    .replaceAll("{{ASSET_PREFIX}}", escapeHtml(assetPrefix))
     .replaceAll("{{PAGE_TITLE}}", escapeHtml(pageTitle))
     .replaceAll("{{META_DESCRIPTION}}", escapeHtml(metaDescription))
     .replaceAll("{{THEME_COLOR}}", escapeHtml(themeColor))

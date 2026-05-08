@@ -27,12 +27,15 @@ def test_health(client):
     reason="layout-shell/ not present (gitignored / optional UI)",
 )
 def test_root_serves_demo_html(client):
-    r = client.get("/")
-    assert r.status_code == 200
-    assert "text/html" in r.headers.get("content-type", "")
-    body = r.text
+    r = client.get("/", follow_redirects=False)
+    assert r.status_code == 302
+    assert r.headers.get("location") == "/layout-shell/index.html"
+    r2 = client.get("/layout-shell/index.html")
+    assert r2.status_code == 200
+    assert "text/html" in r2.headers.get("content-type", "")
+    body = r2.text
     assert "Feature Store Mini" in body
-    assert 'href="/layout-shell/"' in body  # <base> resolves shell.css for GET /
+    assert "shellAssetBase" not in body
     assert 'href="shell.css"' in body
     assert 'href="demo-content.css"' in body
 
@@ -57,7 +60,7 @@ def test_demo_page_renders(client):
     body = r.text
     assert "Feature Store Mini" in body
     assert "/demo/transform" in body
-    assert 'href="/layout-shell/"' in body
+    assert "shellAssetBase" not in body
     assert 'href="shell.css"' in body
     assert 'href="demo-content.css"' in body
 

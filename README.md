@@ -25,7 +25,7 @@ tests/
 .github/workflows/ci.yml
 ```
 
-If **`layout-shell/`** is missing, **`GET /`** redirects to **`/docs`** (API-only deploy); static assets are not mounted under **`/layout-shell/`** unless that folder exists.
+If **`layout-shell/`** is missing, **`GET /`** redirects to **`/docs`** (API-only deploy). If it exists, **`GET /`** redirects to **`/layout-shell/index.html`** and static files are served under **`/layout-shell/`**.
 
 ---
 

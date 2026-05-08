@@ -4,7 +4,7 @@
   "identitySub": "",
   "location": "Prague, Czech Republic",
   "portfolioUrl": "https://vahdetlabs.com/",
-  "avatarUrl": "/favicon.svg",
+  "avatarUrl": "favicon.svg",
   "technicalFocus": [
     "Operational data to model-ready tables",
     "Reusable transform definitions",
