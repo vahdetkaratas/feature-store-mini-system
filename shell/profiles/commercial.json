@@ -4,7 +4,7 @@
   "identitySub": "",
   "location": "Prague, Czech Republic",
   "portfolioUrl": "https://vahdetlabs.com/",
-  "avatarUrl": "https://vahdetkaratas.com/img/face-1.jpg",
+  "avatarUrl": "/layout-shell/favicon.svg",
   "technicalFocus": [
     "Operational data to model-ready tables",
     "Reusable transform definitions",
@@ -15,6 +15,8 @@
   "reviewSectionTitle": "For client evaluation",
   "footerLabel": "Capability demo",
   "footerTagline": "Batch preparation, APIs, and checks for small teams — not enterprise feature-store software.",
+  "railHomeTitle": "VahdetLabs home",
+  "railAsideLabel": "VahdetLabs",
   "socialLinks": [
     {
       "label": "GitHub",

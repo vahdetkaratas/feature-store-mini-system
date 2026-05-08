@@ -22,8 +22,69 @@
     "Scope is a single-repo pattern for consistent offline features and reviewable validation—not training or model hosting.",
     "Demo raw schema is Telco-style tabular data; production would swap the same pattern for your own column contract."
   ],
+  "relatedMlSystems": [
+    {
+      "label": "Portfolio",
+      "href": "https://vahdetkaratas.com/portfolio",
+      "external": true
+    },
+    {
+      "label": "Batch scoring",
+      "href": "https://batch-scoring.vahdetlabs.com/",
+      "external": true
+    },
+    {
+      "label": "Feature store",
+      "href": "https://feature-store.vahdetlabs.com/",
+      "external": true
+    },
+    {
+      "label": "Vahdetlabs",
+      "href": "https://vahdetlabs.com/",
+      "external": true
+    },
+    {
+      "label": "Monitoring & data quality",
+      "href": "https://monitoring.vahdetlabs.com/",
+      "external": true
+    },
+    {
+      "label": "Customer churn prediction",
+      "href": "https://churn.vahdetlabs.com/",
+      "external": true
+    }
+  ],
+  "relatedDataTools": [
+    {
+      "label": "Data cleaning toolkit",
+      "href": "https://data-cleaning.vahdetlabs.com/",
+      "external": true
+    },
+    {
+      "label": "EDA report generator",
+      "href": "https://eda-report.vahdetlabs.com/",
+      "external": true
+    },
+    {
+      "label": "Forecasting demo",
+      "href": "https://forecasting.vahdetlabs.com/",
+      "external": true
+    },
+    {
+      "label": "CSV analytics",
+      "href": "https://ai-analysis.vahdetlabs.com/",
+      "external": true
+    },
+    {
+      "label": "KPI dashboard",
+      "href": "https://kpi-dashboard.vahdetlabs.com/",
+      "external": true
+    }
+  ],
   "profiles": {
     "recruiter": {
+      "featuresPublicUrl": "https://features.vahdetkaratas.com/",
+      "featuresDocsUrl": "https://features.vahdetkaratas.com/docs",
       "eyebrow": "Proof of work · batch ML data discipline",
       "summary": "Production-minded pattern: one registry for feature meaning, one build path, structured validation, and the same transforms whether you run a CLI job or POST a CSV to FastAPI.",
       "heroNote": "Same code path in CLI and API; errors use stable codes (e.g. missing raw columns). OpenAPI documents the live service.",
@@ -65,23 +126,32 @@
           "href": "https://vahdetkaratas.com/",
           "external": true
         }
-      ],
-      "relatedSystems": [
-        {
-          "label": "Portfolio",
-          "href": "https://vahdetkaratas.com/",
-          "external": true
-        }
       ]
     },
     "commercial": {
+      "featuresPublicUrl": "https://features.vahdetlabs.com/",
+      "featuresDocsUrl": "https://features.vahdetlabs.com/docs",
       "eyebrow": "Pilot capability · repeatable feature prep",
       "summary": "Turn an agreed raw export into a model-ready feature table with named transforms and checks—useful for pilots where spreadsheets and ad-hoc scripts drift apart.",
-      "heroNote": "Framed as workflow discipline, not a replacement for enterprise feature platforms. Live demo and API docs reflect the same shipped code.",
+      "heroNote": "Scoped pilot pattern—not SaaS or a full data platform. OpenAPI supports technical diligence; the outcome is a repeatable table, not novelty UI.",
+      "pageTitle": "Feature Store Mini — pilot feature-prep pattern",
+      "metaDescription": "Pilot-sized pattern: turn agreed operational exports into validated, model-ready feature tables with one build path—honest scope, no enterprise feature-store claims.",
+      "stack": [
+        "Agreed raw contract",
+        "Validated feature table",
+        "Batch + API parity",
+        "Pilot-ready handover"
+      ],
+      "limitations": [
+        "Not enterprise feature-store software: no Feast/Tecton-scale materialization, no real-time serving layer, and not a hosted multi-tenant product.",
+        "A single-repo implementation pattern for offline, batch features—not model training, scoring productization, or org-wide data governance.",
+        "Illustrative flows use Telco-style tabular data; your pilot pins the same idea to your own columns and approvals."
+      ],
+      "footerProjectSub": "Named transforms · validation · pilot scope — not a SaaS data platform.",
       "projectLinks": [
         {
           "label": "Open workflow demo",
-          "href": "https://features.vahdetkaratas.com/",
+          "href": "https://features.vahdetlabs.com/",
           "external": true
         },
         {
@@ -98,12 +168,12 @@
       "reviewLinks": [
         {
           "label": "Feature workflow demo",
-          "href": "https://features.vahdetkaratas.com/",
+          "href": "https://features.vahdetlabs.com/",
           "external": true
         },
         {
           "label": "API reference (OpenAPI)",
-          "href": "https://features.vahdetkaratas.com/docs",
+          "href": "https://features.vahdetlabs.com/docs",
           "external": true
         },
         {
@@ -111,13 +181,6 @@
           "href": "https://vahdetlabs.com/contact",
           "external": true
         },
-        {
-          "label": "Vahdetlabs",
-          "href": "https://vahdetlabs.com/",
-          "external": true
-        }
-      ],
-      "relatedSystems": [
         {
           "label": "Vahdetlabs",
           "href": "https://vahdetlabs.com/",

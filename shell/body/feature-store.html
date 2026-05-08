@@ -60,17 +60,8 @@
 <section class="proj-section" id="deployment">
   <h2>Deployment / live interface</h2>
   <p class="proj-section-intro">
-    Canonical service: <strong><a href="https://features.vahdetkaratas.com/" target="_blank" rel="noopener noreferrer">features.vahdetkaratas.com</a></strong>. The app serves <code>GET /</code> when a static UI bundle is deployed under <code>layout-shell/</code>; JSON endpoints and <code>/docs</code> do not depend on that UI. Typical VPS path: install dependencies, run Uvicorn against <code>src.api.main:app</code>, reverse-proxy TLS. Docker is not defined in-repo; a thin image wrapping the same command is enough if you add one later.
+    API host for this build: <strong><a href="{{FEATURES_PUBLIC_URL}}" target="_blank" rel="noopener noreferrer">{{FEATURES_PUBLIC_URL}}</a></strong> · <a href="{{FEATURES_DOCS_URL}}" target="_blank" rel="noopener noreferrer">OpenAPI</a>. The FastAPI app can serve <code>GET /</code> only when a UI bundle is present beside the process; otherwise the root redirects to <code>/docs</code>. Static marketing pages use the shell output folders on <code>feature-store.*</code> hostnames.
   </p>
-</section>
-
-<section class="proj-section" id="limitations">
-  <h2>Limitations</h2>
-  <ul class="pitch">
-    <li>No online feature store: no point-in-time joins, real-time serving layer, or Feast/Tecton-style materialization.</li>
-    <li>In scope: one-repo pattern for consistent offline features and reviewable validation—not model hosting or training orchestration.</li>
-    <li>Sample raw data is synthetic Telco-style tabular CSV; a real deployment swaps the same contracts for your schema.</li>
-  </ul>
 </section>
 
 <section class="proj-section" id="why">

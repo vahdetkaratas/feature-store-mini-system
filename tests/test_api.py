@@ -66,10 +66,10 @@ def test_demo_page_renders(client):
     HAS_LAYOUT_SHELL_DEMO,
     reason="layout-shell demo is installed",
 )
-def test_root_404_when_demo_ui_not_installed(client):
+def test_root_redirects_to_docs_when_demo_ui_not_installed(client):
     r = client.get("/")
-    assert r.status_code == 404
-    assert "layout-shell" in r.json()["detail"].lower()
+    assert r.status_code == 302
+    assert r.headers.get("location") == "/docs"
 
 
 def test_features_catalog(client):

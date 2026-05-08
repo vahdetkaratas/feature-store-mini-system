@@ -1,0 +1,64 @@
+<section class="proj-section" id="solves">
+  <h2>What this solves</h2>
+  <p class="proj-section-intro">
+    Operational exports often arrive as messy spreadsheets: <strong>inconsistent columns</strong>, silent gaps, and one-off rules in different files. That makes <strong>batch scoring</strong>, internal analytics, and model refresh brittle—because nobody agrees what “clean input” means. This pattern <strong>locks a single definition</strong> of derived fields, runs one build, and <strong>surfaces validation in plain language</strong> before bad data reaches a dashboard or a training job.
+  </p>
+</section>
+
+<section class="proj-section" id="pilot-produces">
+  <h2>What a pilot produces</h2>
+  <p class="proj-section-intro">
+    From an <strong>agreed raw extract</strong> (CSV today), you get a <strong>repeatable feature table</strong>: stable column names, documented transforms, and a short <strong>validation summary</strong> (duplicates, schema checks, coarse sanity). Outputs are suitable for <strong>downstream modelling</strong>, internal reporting, or scheduled batch runs—without maintaining parallel “secret” notebook logic.
+  </p>
+</section>
+
+<section class="proj-section" id="how-it-works">
+  <h2>How the system works</h2>
+  <div class="pipeline-wrap">
+    <div class="pipeline" role="list">
+      <div class="pipe-step" role="listitem">
+        <span class="step-label">①</span>
+        <span class="step-name">Agree the raw contract</span>
+      </div>
+      <div class="pipe-step" role="listitem">
+        <span class="step-label">②</span>
+        <span class="step-name">Named transforms in one build</span>
+      </div>
+      <div class="pipe-step" role="listitem">
+        <span class="step-label">③</span>
+        <span class="step-name">Validate before hand-off</span>
+      </div>
+      <div class="pipe-step" role="listitem">
+        <span class="step-label">④</span>
+        <span class="step-name">Same rules over HTTP when needed</span>
+      </div>
+    </div>
+  </div>
+  <p class="proj-section-intro">
+    Under the hood, definitions and checks live in code so <strong>batch jobs and a small HTTP API stay aligned</strong>. That reduces “it worked in my script” surprises when someone else runs the same data.
+  </p>
+</section>
+
+<section class="proj-section" id="scope-limits">
+  <h2>Scope and limits</h2>
+  <p class="proj-section-intro">
+    This is intentionally <strong>not</strong> a consumer SaaS product, not a full enterprise <strong>Feast/Tecton</strong>-style platform, and not a substitute for company-wide data governance. It is a <strong>pilot-sized, implementation-level pattern</strong>: one pipeline, honest boundaries, and clear documentation. The live service and <a href="{{FEATURES_DOCS_URL}}" target="_blank" rel="noopener noreferrer">OpenAPI</a> are there so your technical stakeholders can verify behaviour—not the main business outcome of a successful pilot.
+  </p>
+</section>
+
+<section class="proj-section" id="when-useful">
+  <h2>When this is useful</h2>
+  <ul class="pitch">
+    <li>You need <strong>model-ready or decision-ready tables</strong> from recurring operational extracts without re-writing transforms each quarter.</li>
+    <li>You want <strong>schema and quality issues caught early</strong>, with summaries you can act on before reports or models consume the file.</li>
+    <li>You run <strong>batch scoring or internal analytics</strong> and need the <strong>same feature definitions</strong> every run, not ad-hoc spreadsheet logic.</li>
+    <li>You prefer a <strong>scoped engagement</strong> with a clear handover pattern rather than buying a broad “data platform.”</li>
+  </ul>
+</section>
+
+<section class="proj-section" id="deployment">
+  <h2>Where to try it</h2>
+  <p class="proj-section-intro">
+    This overview lives on the <strong>VahdetLabs</strong> project page. The referenced <strong><a href="{{FEATURES_PUBLIC_URL}}" target="_blank" rel="noopener noreferrer">API host</a></strong> exposes the same pipeline for technical review (<a href="{{FEATURES_DOCS_URL}}" target="_blank" rel="noopener noreferrer">OpenAPI</a>). It is an <strong>engineering reference</strong>, not a consumer landing experience.
+  </p>
+</section>

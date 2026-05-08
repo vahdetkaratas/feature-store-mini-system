@@ -160,7 +160,21 @@ async function main() {
   const projectBase = await readJson(projectPath);
   const project = mergeProject(projectBase, profileName);
   const template = await fs.readFile(path.join(ROOT, "index.html"), "utf8");
-  const bodyHtml = await fs.readFile(bodyPath, "utf8");
+  let bodyHtml = await fs.readFile(bodyPath, "utf8");
+
+  const fp = project.featuresPublicUrl;
+  const featuresPublicUrl =
+    fp != null && String(fp).trim() !== ""
+      ? String(fp).replace(/\/?$/, "/")
+      : "https://features.vahdetkaratas.com/";
+  const fd = project.featuresDocsUrl;
+  const featuresDocsUrl =
+    fd != null && String(fd).trim() !== ""
+      ? String(fd)
+      : `${String(featuresPublicUrl).replace(/\/$/, "")}/docs`;
+  bodyHtml = bodyHtml
+    .replaceAll("{{FEATURES_PUBLIC_URL}}", escapeHtml(featuresPublicUrl))
+    .replaceAll("{{FEATURES_DOCS_URL}}", escapeHtml(featuresDocsUrl));
 
   let assetPrefix = project.assetPrefix;
   if (assetPrefix == null || String(assetPrefix).trim() === "") {
@@ -180,6 +194,8 @@ async function main() {
   const footerSub =
     project.footerProjectSub ||
     "Batch pipeline · definitions · validation · FastAPI";
+  const railHomeTitle = profile.railHomeTitle || "Portfolio home";
+  const railAsideLabel = profile.railAsideLabel || "Home";
 
   const rendered = template
     .replaceAll("{{ASSET_PREFIX}}", escapeHtml(assetPrefix))
@@ -187,6 +203,8 @@ async function main() {
     .replaceAll("{{META_DESCRIPTION}}", escapeHtml(metaDescription))
     .replaceAll("{{THEME_COLOR}}", escapeHtml(themeColor))
     .replaceAll("{{PORTFOLIO_URL}}", escapeHtml(profile.portfolioUrl))
+    .replaceAll("{{RAIL_HOME_TITLE}}", escapeHtml(railHomeTitle))
+    .replaceAll("{{RAIL_ASIDE_LABEL}}", escapeHtml(railAsideLabel))
     .replaceAll("{{AVATAR_URL}}", escapeHtml(profile.avatarUrl))
     .replaceAll("{{PROFILE_NAME}}", escapeHtml(profile.name))
     .replaceAll("{{PROFILE_IDENTITY}}", escapeHtml(profile.identity))

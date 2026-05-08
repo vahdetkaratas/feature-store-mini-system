@@ -4,14 +4,18 @@ Templates and assets for **Feature Store Mini** landing pages. **Do not edit gen
 
 ## Render
 
-From the **repository root**:
+From the **repository root**, recruiter uses **`shell/body/feature-store.html`**; commercial uses **`shell/body/feature-store-commercial.html`**:
 
 ```bash
 node shell/render-shell.mjs --project shell/projects/feature-store.json --body shell/body/feature-store.html --out layout-shell --profile recruiter
 
-node shell/render-shell.mjs --project shell/projects/feature-store.json --body shell/body/feature-store.html --out layout-shell-commercial --profile commercial
+node shell/render-shell.mjs --project shell/projects/feature-store.json --body shell/body/feature-store-commercial.html --out layout-shell-commercial --profile commercial
 ```
 
-Outputs include `index.html`, `shell.css`, `demo-content.css`, `shell.js`, `favicon.svg`, and `profile.json`. Asset URLs use `/layout-shell/` so they match `FastAPI` static mount + `GET /` serving `layout-shell/index.html`.
+Outputs include `index.html`, `shell.css`, `demo-content.css`, `shell.js`, `favicon.svg`, and `profile.json`. Asset URLs use `/layout-shell/` so they match a co-located FastAPI static mount if you use one.
 
-Deploy **recruiter** build to **feature-store.vahdetkaratas.com** and **commercial** build to **feature-store.vahdetlabs.com** (or your chosen hostnames). Canonical live API/UI entry: **https://features.vahdetkaratas.com/**.
+**Commit policy:** `layout-shell/` (recruiter) and `layout-shell-commercial/` are tracked so clones match CI and deploys without running Node first. Re-render and commit after any change under `shell/`.
+
+**Deploy:** static **recruiter** → **feature-store.vahdetkaratas.com**; static **commercial** → **feature-store.vahdetlabs.com**. API hosts **features.vahdetkaratas.com** / **features.vahdetlabs.com** — omit `layout-shell/` beside the process so **`GET /`** redirects to **`/docs`** (see `src/api/main.py`).
+
+Commercial hero/review CTAs use **features.vahdetlabs.com** and **vahdetlabs.com**. The left sidebar “ML systems” block also lists **Portfolio** at **vahdetkaratas.com/portfolio** for cross-navigation.

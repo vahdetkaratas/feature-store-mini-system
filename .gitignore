@@ -9,5 +9,5 @@ venv/
 # Generated pipeline output (reproducible via build_feature_table)
 artifacts/feature_table/*.csv
 
-# Browser demo shell + static UI (kept locally / deployed separately — not published in this repo)
-layout-shell/
+# Generated recruiter shell output is committed for reproducible clones (see shell/README.md).
+# Commercial output: layout-shell-commercial/

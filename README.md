@@ -6,7 +6,7 @@ This repository is a **compact batch pipeline** that turns **Telco-style (churn)
 
 **What it is not.** This is **not** a hosted feature store (no Feast/Tecton-style online serving, materialized history, or point-in-time joins). It is **not** a training or model-serving project. Scope stays deliberately small: **one honest batch pattern** with tests and an optional HTTP layer so someone else can see the same behavior without digging through only notebooks.
 
-**Stack.** Python, **pandas**, **pytest**, and optional **FastAPI** for JSON endpoints and an optional local **HTML demo** if you add a **`layout-shell/`** folder beside `src/` (that folder is **gitignored** and is not part of the default clone). **GitHub Actions** runs tests and a one-line CLI smoke build on Python **3.11** and **3.12**.
+**Stack.** Python, **pandas**, **pytest**, and optional **FastAPI** for JSON endpoints and an optional local **HTML demo** when **`layout-shell/index.html`** is present (recruiter shell is generated from **`shell/`** and committed as **`layout-shell/`** — re-run `render-shell.mjs` after copy changes). **GitHub Actions** runs tests and a one-line CLI smoke build on Python **3.11** and **3.12**.
 
 ---
 
@@ -25,7 +25,7 @@ tests/
 .github/workflows/ci.yml
 ```
 
-If **`layout-shell/`** is missing after clone, the JSON API and Swagger still work; **`GET /`** returns **404** and static files are not mounted under **`/layout-shell/`**.
+If **`layout-shell/`** is missing, **`GET /`** redirects to **`/docs`** (API-only deploy); static assets are not mounted under **`/layout-shell/`** unless that folder exists.
 
 ---
 

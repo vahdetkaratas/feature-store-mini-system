@@ -13,7 +13,7 @@ import pandas as pd
 from fastapi import FastAPI, File, HTTPException, Query, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.encoders import jsonable_encoder
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 
 from src.features.definitions import FEATURE_VERSION
@@ -58,14 +58,11 @@ if _LAYOUT_SHELL_DIR.is_dir():
     )
 
 
-@app.get("/")
-def root_demo_page() -> FileResponse:
-    """Serve the demo HTML at / when layout-shell/index.html is present."""
+@app.get("/", response_model=None)
+def root_demo_page():
+    """Serve demo HTML when layout-shell exists; otherwise send users to API docs (API-only deploy)."""
     if not LAYOUT_SHELL_INDEX.is_file():
-        raise HTTPException(
-            status_code=404,
-            detail="Demo page missing (add layout-shell/index.html locally or deploy static UI separately).",
-        )
+        return RedirectResponse(url="/docs", status_code=302)
     return FileResponse(
         path=str(LAYOUT_SHELL_INDEX),
         media_type="text/html; charset=utf-8",
