@@ -12,9 +12,6 @@ const MAIN_TOP_FULL = `                    <section class="hero">
                       <span class="hero-badge">{{PROJECT_EYEBROW}}</span>
                       <h1>{{PROJECT_HERO_TITLE}}</h1>
                       <p class="hero-lead">{{PROJECT_SUMMARY}}</p>
-                      <div class="hero-cta">
-                        {{HERO_CTA_BUTTONS}}
-                      </div>
                       {{HERO_NOTE_HTML}}
                       <div class="metrics" aria-label="Project facts">
                         {{METRICS_ITEMS}}
@@ -242,10 +239,6 @@ function renderHtml(
     )
     .replaceAll("{{PROJECT_HERO_TITLE}}", escapeHtml(heroTitle))
     .replaceAll("{{PROJECT_SUMMARY}}", escapeHtml(project.summary))
-    .replaceAll(
-      "{{HERO_CTA_BUTTONS}}",
-      ctaButtons(project.projectLinks || [])
-    )
     .replaceAll("{{HERO_NOTE_HTML}}", heroNoteHtml(project.heroNote))
     .replaceAll("{{METRICS_ITEMS}}", metricsFromStack(project.stack || []))
     .replaceAll(
