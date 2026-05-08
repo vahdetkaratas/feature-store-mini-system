@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Pilot-sized pattern: turn agreed operational exports into validated, model-ready feature tables with one build path—honest scope, no enterprise feature-store claims.">
+  <meta name="description" content="Pilot CSV → feature table on the live API; same transforms as in-repo batch and HTTP contracts.">
   <meta name="theme-color" content="#191923">
-  <title>Feature Store Mini — pilot feature-prep pattern</title>
+  <title>Feature Store Mini — try the pipeline</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="shortcut icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,7 +14,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
   <link rel="stylesheet" href="shell.css">
   <link rel="stylesheet" href="demo-content.css">
-  
+  <meta name="fs-api-origin" content="http://127.0.0.1:8000">
+  <link rel="stylesheet" href="fs-portfolio-demo.css">
 </head>
 <body>
   <div class="shell-outer">
@@ -113,94 +114,118 @@
                   </header>
 
                   <div id="main">
-                                        <section class="hero">
-                      <span class="hero-badge">Pilot capability · repeatable feature prep</span>
-                      <h1>Feature Store Mini</h1>
-                      <p class="hero-lead">Turn an agreed raw export into a model-ready feature table with named transforms and checks—useful for pilots where spreadsheets and ad-hoc scripts drift apart.</p>
-                      <div class="hero-cta">
-                        <a class="btn btn-primary" href="https://features.vahdetlabs.com/" target="_blank" rel="noopener noreferrer">Open workflow demo</a>
-<a class="btn btn-ghost" href="portfolio-demo.html">Interactive demo</a>
-<a class="btn btn-ghost" href="https://vahdetlabs.com/contact" target="_blank" rel="noopener noreferrer">Discuss a use case</a>
-<a class="btn btn-ghost" href="https://vahdetlabs.com/" target="_blank" rel="noopener noreferrer">Vahdetlabs</a>
-                      </div>
-                      <p class="hero-note">Scoped pilot pattern—not SaaS or a full data platform. OpenAPI supports technical diligence; the outcome is a repeatable table, not novelty UI.</p>
-                      <div class="metrics" aria-label="Project facts">
-                        <div><span>Agreed raw contract</span></div>
-<div><span>Validated feature table</span></div>
-<div><span>Batch + API parity</span></div>
-<div><span>Pilot-ready handover</span></div>
-                      </div>
-                    </section>
-
-                    <section id="scope" aria-labelledby="h-scope"><h2 id="h-scope">Limitations &amp; scope</h2><div class="pitch"><ul><li>Not enterprise feature-store software: no Feast/Tecton-scale materialization, no real-time serving layer, and not a hosted multi-tenant product.</li>
-<li>A single-repo implementation pattern for offline, batch features—not model training, scoring productization, or org-wide data governance.</li>
-<li>Illustrative flows use Telco-style tabular data; your pilot pins the same idea to your own columns and approvals.</li></ul></div></section>
+                                        <div class="fs-demo-nav"><a class="btn btn-ghost" href="index.html">← Project overview</a></div>
 
 
-                    <section class="proj-section" id="solves">
-  <h2>What this solves</h2>
-  <p class="proj-section-intro">
-    Operational exports often arrive as messy spreadsheets: <strong>inconsistent columns</strong>, silent gaps, and one-off rules in different files. That makes <strong>batch scoring</strong>, internal analytics, and model refresh brittle—because nobody agrees what “clean input” means. This pattern <strong>locks a single definition</strong> of derived fields, runs one build, and <strong>surfaces validation in plain language</strong> before bad data reaches a dashboard or a training job.
-  </p>
-</section>
+                    <article class="fs-deck batch-page">
+  <header class="fs-hero">
+    <p class="fs-eyebrow">Pilot · try the pipeline in the browser</p>
+    <h1 class="fs-title">Feature Store Mini</h1>
+    <p class="fs-subtitle">
+      Agreed operational extract in → model-ready feature table out. One build path you can schedule or call over HTTP — useful before bigger platform commitments.
+    </p>
+    <ul class="fs-stats" aria-label="Project highlights">
+      <li><strong>8</strong><span>derived features</span></li>
+      <li><strong>1</strong><span>pipeline entrypoint</span></li>
+      <li><strong>4</strong><span>validation checks</span></li>
+    </ul>
+  </header>
 
-<section class="proj-section" id="pilot-produces">
-  <h2>What a pilot produces</h2>
-  <p class="proj-section-intro">
-    From an <strong>agreed raw extract</strong> (CSV today), you get a <strong>repeatable feature table</strong>: stable column names, documented transforms, and a short <strong>validation summary</strong> (duplicates, schema checks, coarse sanity). Outputs are suitable for <strong>downstream modelling</strong>, internal reporting, or scheduled batch runs—without maintaining parallel “secret” notebook logic.
-  </p>
-</section>
+  <section class="fs-section" aria-labelledby="fs-fit-heading">
+    <h2 id="fs-fit-heading" class="fs-section-title">How it works</h2>
+    <ol class="fs-flow">
+      <li>
+        <span class="fs-flow-step" aria-hidden="true">1</span>
+        <span><strong>Definitions</strong> — each feature documents inputs, dtype, and meaning in one registry.</span>
+      </li>
+      <li>
+        <span class="fs-flow-step" aria-hidden="true">2</span>
+        <span><strong>Transform</strong> — a single build step produces <code>customer_id</code> + feature columns.</span>
+      </li>
+      <li>
+        <span class="fs-flow-step" aria-hidden="true">3</span>
+        <span><strong>Validate</strong> — duplicates, schema, and sanity checks before you trust the file.</span>
+      </li>
+    </ol>
+    <p class="fs-scope-note">Not enterprise Feast/Tecton-scale software or a consumer SaaS — a pilot-sized pattern with honest boundaries.</p>
+  </section>
 
-<section class="proj-section" id="how-it-works">
-  <h2>How the system works</h2>
-  <div class="pipeline-wrap">
-    <div class="pipeline" role="list">
-      <div class="pipe-step" role="listitem">
-        <span class="step-label">①</span>
-        <span class="step-name">Agree the raw contract</span>
+  <section class="fs-section" aria-labelledby="fs-run-heading">
+    <h2 id="fs-run-heading" class="fs-section-title">Run the pipeline</h2>
+    <p class="fs-section-lead">Same logic two ways: upload here (FastAPI) or run locally from the repo root.</p>
+
+    <div class="fs-run-grid">
+      <div class="fs-run-card fs-run-card--live">
+        <h3 class="fs-run-card-title"><i class="fas fa-bolt" aria-hidden="true"></i> Live on this server</h3>
+        <p class="fs-run-card-lead">Upload a raw <code>.csv</code> (max 2&nbsp;MB), or run the repo&rsquo;s synthetic sample with one click.</p>
+        <form id="fs-form" class="fs-form-compact" aria-label="Run pipeline on CSV">
+          <div class="fs-form-row">
+            <label class="fs-file-label" for="fs-file">CSV file</label>
+            <input type="file" id="fs-file" name="file" accept=".csv,text/csv" class="fs-file-input">
+          </div>
+          <div class="fs-form-row fs-form-row--tight">
+            <label class="fs-check-label"><input type="checkbox" id="fs-strict" name="strict"> Strict mode — reject required columns that are 100% null</label>
+          </div>
+          <p class="fs-sample-hint">No file handy? One click loads the same <code>sample_raw.csv</code> as the CLI default (~250 synthetic rows).</p>
+          <div class="fs-form-actions fs-form-actions--split">
+            <button type="button" class="fs-btn fs-btn--ghost" id="fs-sample-btn">Try bundled sample</button>
+            <button type="submit" class="fs-btn fs-btn--primary" id="fs-submit">Run pipeline</button>
+          </div>
+          <p class="fs-muted">Schema: churn-style columns (e.g. tenure, Contract, services). <a href="https://features.vahdetlabs.com/docs" target="_blank" rel="noopener noreferrer">OpenAPI</a></p>
+        </form>
       </div>
-      <div class="pipe-step" role="listitem">
-        <span class="step-label">②</span>
-        <span class="step-name">Named transforms in one build</span>
-      </div>
-      <div class="pipe-step" role="listitem">
-        <span class="step-label">③</span>
-        <span class="step-name">Validate before hand-off</span>
-      </div>
-      <div class="pipe-step" role="listitem">
-        <span class="step-label">④</span>
-        <span class="step-name">Same rules over HTTP when needed</span>
+
+      <div class="fs-run-card fs-run-card--cli">
+        <h3 class="fs-run-card-title"><i class="fas fa-terminal" aria-hidden="true"></i> Local CLI</h3>
+        <p class="fs-run-card-lead">After <code>pip install -r requirements.txt</code>:</p>
+        <div class="fs-cli-block">
+          <pre class="fs-cli" id="fs-cli-default"><code>python -m src.pipeline.build_feature_table</code></pre>
+          <button type="button" class="fs-btn fs-btn--ghost" id="fs-copy-cli" aria-label="Copy CLI command">Copy</button>
+        </div>
+        <p class="fs-cli-meta">Default in: <code>data/raw/sample_raw.csv</code> → out: <code>artifacts/feature_table/customer_feature_table.csv</code></p>
+        <p class="fs-cli-meta">Stricter raw checks: <code>python -m src.pipeline.build_feature_table --strict</code></p>
       </div>
     </div>
+
+    <nav class="fs-quick-links" aria-label="API shortcuts">
+      <a href="/docs" class="fs-quick-link" target="_blank" rel="noopener noreferrer"><i class="fas fa-book" aria-hidden="true"></i> Swagger</a>
+      <a href="/features" class="fs-quick-link"><i class="fas fa-list-ul" aria-hidden="true"></i> Feature catalog</a>
+      <a href="/health" class="fs-quick-link"><i class="fas fa-heartbeat" aria-hidden="true"></i> Health</a>
+    </nav>
+  </section>
+</article>
+
+<div id="fs-error" class="fs-error fs-hidden" role="alert"></div>
+
+<div id="fs-result" class="fs-results fs-hidden">
+  <h2 class="fs-section-title fs-results-title">Results</h2>
+  <p class="fs-results-hint">JSON summaries below; preview is the first rows of the built feature table.</p>
+  <div class="fs-panel">
+    <h3 class="fs-panel-title">Meta</h3>
+    <pre id="fs-meta" class="fs-pre"></pre>
   </div>
-  <p class="proj-section-intro">
-    Under the hood, definitions and checks live in code so <strong>batch jobs and a small HTTP API stay aligned</strong>. That reduces “it worked in my script” surprises when someone else runs the same data.
-  </p>
-</section>
-
-<section class="proj-section" id="scope-limits">
-  <h2>Scope and limits</h2>
-  <p class="proj-section-intro">
-    This is intentionally <strong>not</strong> a consumer SaaS product, not a full enterprise <strong>Feast/Tecton</strong>-style platform, and not a substitute for company-wide data governance. It is a <strong>pilot-sized, implementation-level pattern</strong>: one pipeline, honest boundaries, and clear documentation. The live service and <a href="https://features.vahdetlabs.com/docs" target="_blank" rel="noopener noreferrer">OpenAPI</a> are there so your technical stakeholders can verify behaviour—not the main business outcome of a successful pilot.
-  </p>
-</section>
-
-<section class="proj-section" id="when-useful">
-  <h2>When this is useful</h2>
-  <ul class="pitch">
-    <li>You need <strong>model-ready or decision-ready tables</strong> from recurring operational extracts without re-writing transforms each quarter.</li>
-    <li>You want <strong>schema and quality issues caught early</strong>, with summaries you can act on before reports or models consume the file.</li>
-    <li>You run <strong>batch scoring or internal analytics</strong> and need the <strong>same feature definitions</strong> every run, not ad-hoc spreadsheet logic.</li>
-    <li>You prefer a <strong>scoped engagement</strong> with a clear handover pattern rather than buying a broad “data platform.”</li>
-  </ul>
-</section>
-
-<section class="proj-section" id="deployment">
-  <h2>Where to try it</h2>
-  <p class="proj-section-intro">
-    This overview lives on the <strong>VahdetLabs</strong> project page. The referenced <strong><a href="https://features.vahdetlabs.com/" target="_blank" rel="noopener noreferrer">API host</a></strong> exposes the same pipeline for technical review (<a href="https://features.vahdetlabs.com/docs" target="_blank" rel="noopener noreferrer">OpenAPI</a>). It is an <strong>engineering reference</strong>, not a consumer landing experience.
-  </p>
-</section>
+  <div class="fs-panel">
+    <h3 class="fs-panel-title">Input summary</h3>
+    <pre id="fs-input" class="fs-pre"></pre>
+  </div>
+  <div class="fs-panel">
+    <h3 class="fs-panel-title">Output summary</h3>
+    <pre id="fs-output" class="fs-pre"></pre>
+  </div>
+  <div class="fs-panel">
+    <h3 class="fs-panel-title">Validation <span id="fs-val-badge"></span></h3>
+    <pre id="fs-validation-summary" class="fs-pre"></pre>
+  </div>
+  <div class="fs-panel">
+    <h3 class="fs-panel-title">Feature columns</h3>
+    <pre id="fs-feature-cols" class="fs-pre"></pre>
+  </div>
+  <div class="fs-panel">
+    <h3 class="fs-panel-title">Preview rows</h3>
+    <p class="fs-panel-caption" id="fs-preview-caption" aria-live="polite"></p>
+    <div id="fs-preview-table" class="fs-table-wrap" role="region" aria-label="Feature table preview"></div>
+  </div>
+</div>
 
                   </div>
 

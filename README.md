@@ -6,7 +6,7 @@ This repository is a **compact batch pipeline** that turns **Telco-style (churn)
 
 **What it is not.** This is **not** a hosted feature store (no Feast/Tecton-style online serving, materialized history, or point-in-time joins). It is **not** a training or model-serving project. Scope stays deliberately small: **one honest batch pattern** with tests and an optional HTTP layer so someone else can see the same behavior without digging through only notebooks.
 
-**Stack.** Python, **pandas**, **pytest**, and optional **FastAPI** for JSON endpoints and an optional local **HTML demo** when **`layout-shell/index.html`** is present (recruiter shell is generated from **`shell/`** and committed as **`layout-shell/`** — re-run `render-shell.mjs` after copy changes). **GitHub Actions** runs tests and a one-line CLI smoke build on Python **3.11** and **3.12**.
+**Stack.** Python, **pandas**, **pytest**, and optional **FastAPI** for JSON endpoints and an optional local **HTML demo** when **`layout-shell/index.html`** is present (recruiter shell is generated from **`shell/`** and committed as **`layout-shell/`**, including **`portfolio-demo.html`** when you pass `--demo-body` — re-run `render-shell.mjs` after copy changes). **GitHub Actions** runs tests and a one-line CLI smoke build on Python **3.11** and **3.12**.
 
 ---
 
@@ -25,7 +25,7 @@ tests/
 .github/workflows/ci.yml
 ```
 
-If **`layout-shell/`** is missing, **`GET /`** redirects to **`/docs`** (API-only deploy). If it exists, **`GET /`** redirects to **`/layout-shell/index.html`** and static files are served under **`/layout-shell/`**.
+If **`layout-shell/`** is missing, **`GET /`** redirects to **`/docs`**. If it exists, **`GET /`** redirects to **`/layout-shell/portfolio-demo.html`** when that file is present (interactive portfolio demo), otherwise to **`/layout-shell/index.html`**. Static assets for both pages live under **`/layout-shell/`**.
 
 ---
 

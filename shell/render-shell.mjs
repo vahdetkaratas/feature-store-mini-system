@@ -7,9 +7,29 @@ const DEFAULT_PROFILE = "recruiter";
 
 const GH_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>`;
 
+/** Main column: marketing hero + limitations (placeholders filled with the rest of the template). */
+const MAIN_TOP_FULL = `                    <section class="hero">
+                      <span class="hero-badge">{{PROJECT_EYEBROW}}</span>
+                      <h1>{{PROJECT_HERO_TITLE}}</h1>
+                      <p class="hero-lead">{{PROJECT_SUMMARY}}</p>
+                      <div class="hero-cta">
+                        {{HERO_CTA_BUTTONS}}
+                      </div>
+                      {{HERO_NOTE_HTML}}
+                      <div class="metrics" aria-label="Project facts">
+                        {{METRICS_ITEMS}}
+                      </div>
+                    </section>
+
+                    {{LIMITATIONS_SECTION_HTML}}
+`;
+
+const MAIN_TOP_DEMO = `                    <div class="fs-demo-nav"><a class="btn btn-ghost" href="index.html">← Project overview</a></div>
+`;
+
 function usage() {
   console.error(
-    "Usage: node shell/render-shell.mjs --project <project.json> --body <body.html> --out <output-dir> [--profile <profile-name>]"
+    "Usage: node shell/render-shell.mjs --project <project.json> --body <body.html> --out <output-dir> [--profile <name>] [--demo-body <interactive.html>] [--demo-out <filename>]"
   );
   process.exit(1);
 }
@@ -18,11 +38,17 @@ function parseArgs(argv) {
   const args = {};
   for (let i = 0; i < argv.length; i += 1) {
     const key = argv[i];
-    const value = argv[i + 1];
-    if (!key.startsWith("--") || !value) usage();
-    args[key.slice(2)] = value;
-    i += 1;
+    if (!key || !key.startsWith("--")) usage();
+    const name = key.slice(2);
+    const next = argv[i + 1];
+    if (next === undefined || next.startsWith("--")) {
+      args[name] = true;
+    } else {
+      args[name] = next;
+      i += 1;
+    }
   }
+  if (!args.project || !args.body || !args.out) usage();
   return args;
 }
 
@@ -78,10 +104,7 @@ function metricsFromStack(stack) {
   if (!stack?.length) return "";
   return stack
     .slice(0, 4)
-    .map(
-      (s) =>
-        `<div><span>${escapeHtml(s)}</span></div>`
-    )
+    .map((s) => `<div><span>${escapeHtml(s)}</span></div>`)
     .join("\n");
 }
 
@@ -128,69 +151,53 @@ function mergeProject(baseProject, profileName) {
   };
 }
 
-async function readJson(filePath) {
-  return JSON.parse(await fs.readFile(filePath, "utf8"));
-}
-
-async function readProfile(profileName) {
-  const profilePath = path.join(ROOT, "profiles", `${profileName}.json`);
-  try {
-    return await readJson(profilePath);
-  } catch (error) {
-    if (profileName !== DEFAULT_PROFILE) {
-      throw new Error(
-        `Profile '${profileName}' was not found at ${profilePath}.`
-      );
-    }
-
-    return readJson(path.join(ROOT, "profile.json"));
-  }
-}
-
-async function main() {
-  const args = parseArgs(process.argv.slice(2));
-  const projectPath = args.project ? path.resolve(args.project) : null;
-  const bodyPath = args.body ? path.resolve(args.body) : null;
-  const outDir = args.out ? path.resolve(args.out) : null;
-  const profileName = args.profile || DEFAULT_PROFILE;
-
-  if (!projectPath || !bodyPath || !outDir) usage();
-
-  const profile = await readProfile(profileName);
-  const projectBase = await readJson(projectPath);
-  const project = mergeProject(projectBase, profileName);
-  const template = await fs.readFile(path.join(ROOT, "index.html"), "utf8");
-  let bodyHtml = await fs.readFile(bodyPath, "utf8");
-
-  const fp = project.featuresPublicUrl;
-  const featuresPublicUrl =
-    fp != null && String(fp).trim() !== ""
-      ? String(fp).replace(/\/?$/, "/")
-      : "https://features.vahdetkaratas.com/";
-  const fd = project.featuresDocsUrl;
-  const featuresDocsUrl =
-    fd != null && String(fd).trim() !== ""
-      ? String(fd)
-      : `${String(featuresPublicUrl).replace(/\/$/, "")}/docs`;
-  bodyHtml = bodyHtml
+function applyFeaturesUrls(bodyHtml, featuresPublicUrl, featuresDocsUrl) {
+  return bodyHtml
     .replaceAll("{{FEATURES_PUBLIC_URL}}", escapeHtml(featuresPublicUrl))
     .replaceAll("{{FEATURES_DOCS_URL}}", escapeHtml(featuresDocsUrl));
+}
 
-  const pageTitle =
-    project.pageTitle || `${project.title} - ${profile.name}`;
-  const metaDescription = project.metaDescription || project.summary;
-  const themeColor = project.themeColor || "#1a1a1f";
-  const logo1 = project.logoLine1 || "Feature";
-  const logo2 = project.logoLine2 || "store mini";
-  const heroTitle = project.heroTitle || project.title;
-  const footerTitle = project.footerProjectName || "Feature Store Mini";
-  const footerSub =
-    project.footerProjectSub ||
-    "Batch pipeline · definitions · validation · FastAPI";
-  const railHomeTitle = profile.railHomeTitle || "Portfolio home";
-  const railAsideLabel = profile.railAsideLabel || "Home";
+function applyInteractivePlaceholders(bodyHtml, project) {
+  const eyebrow =
+    project.interactiveDemoEyebrow ||
+    project.eyebrow ||
+    "Interactive demo";
+  const lead =
+    project.interactiveDemoLead ||
+    project.summary ||
+    "";
+  const scope =
+    project.interactiveDemoScopeNote ||
+    "Small scope: consistent offline batch features — not Feast, Tecton, or a hosted product.";
+  return bodyHtml
+    .replaceAll("{{INTERACTIVE_DEMO_EYEBROW}}", escapeHtml(eyebrow))
+    .replaceAll("{{INTERACTIVE_DEMO_LEAD}}", escapeHtml(lead))
+    .replaceAll("{{INTERACTIVE_SCOPE_NOTE}}", escapeHtml(scope));
+}
 
-  const rendered = template
+function renderHtml(
+  template,
+  {
+    bodyHtml,
+    mainTopHtml,
+    headExtraHtml,
+    pageTitle,
+    metaDescription,
+    themeColor,
+    project,
+    profile,
+    logo1,
+    logo2,
+    heroTitle,
+    footerTitle,
+    footerSub,
+    railHomeTitle,
+    railAsideLabel,
+  }
+) {
+  return template
+    .replaceAll("{{HEAD_EXTRA_HTML}}", headExtraHtml)
+    .replaceAll("{{MAIN_TOP_HTML}}", mainTopHtml)
     .replaceAll("{{PAGE_TITLE}}", escapeHtml(pageTitle))
     .replaceAll("{{META_DESCRIPTION}}", escapeHtml(metaDescription))
     .replaceAll("{{THEME_COLOR}}", escapeHtml(themeColor))
@@ -210,10 +217,7 @@ async function main() {
       "{{REVIEW_SECTION_TITLE}}",
       escapeHtml(profile.reviewSectionTitle || "Review")
     )
-    .replaceAll(
-      "{{REVIEW_LINK_ITEMS}}",
-      linkItems(project.reviewLinks || [])
-    )
+    .replaceAll("{{REVIEW_LINK_ITEMS}}", linkItems(project.reviewLinks || []))
     .replaceAll("{{RELATED_GROUPS_HTML}}", relatedGroupsHtml(project))
     .replaceAll(
       "{{SOCIAL_LINK_ITEMS}}",
@@ -244,16 +248,131 @@ async function main() {
     .replaceAll(
       "{{FOOTER_TAGLINE}}",
       escapeHtml(
-        profile.footerTagline ||
-          "Applied ML / data systems and APIs."
+        profile.footerTagline || "Applied ML / data systems and APIs."
       )
     );
+}
+
+async function readJson(filePath) {
+  return JSON.parse(await fs.readFile(filePath, "utf8"));
+}
+
+async function readProfile(profileName) {
+  const profilePath = path.join(ROOT, "profiles", `${profileName}.json`);
+  return readJson(profilePath);
+}
+
+async function main() {
+  const args = parseArgs(process.argv.slice(2));
+  const projectPath = path.resolve(args.project);
+  const bodyPath = path.resolve(args.body);
+  const outDir = path.resolve(args.out);
+  const profileName = args.profile || DEFAULT_PROFILE;
+  const demoBodyArg = args["demo-body"];
+  const demoOutName = args["demo-out"] || "portfolio-demo.html";
+
+  const profile = await readProfile(profileName);
+  const projectBase = await readJson(projectPath);
+  const project = mergeProject(projectBase, profileName);
+  const template = await fs.readFile(path.join(ROOT, "index.html"), "utf8");
+  let bodyHtml = await fs.readFile(bodyPath, "utf8");
+
+  const fp = project.featuresPublicUrl;
+  const featuresPublicUrl =
+    fp != null && String(fp).trim() !== ""
+      ? String(fp).replace(/\/?$/, "/")
+      : "https://features.vahdetkaratas.com/";
+  const fd = project.featuresDocsUrl;
+  const featuresDocsUrl =
+    fd != null && String(fd).trim() !== ""
+      ? String(fd)
+      : `${String(featuresPublicUrl).replace(/\/$/, "")}/docs`;
+  bodyHtml = applyFeaturesUrls(bodyHtml, featuresPublicUrl, featuresDocsUrl);
+
+  const pageTitle =
+    project.pageTitle || `${project.title} - ${profile.name}`;
+  const metaDescription = project.metaDescription || project.summary;
+  const themeColor = project.themeColor || "#1a1a1f";
+  const logo1 = project.logoLine1 || "Feature";
+  const logo2 = project.logoLine2 || "store mini";
+  const heroTitle = project.heroTitle || project.title;
+  const footerTitle = project.footerProjectName || "Feature Store Mini";
+  const footerSub =
+    project.footerProjectSub ||
+    "Batch pipeline · definitions · validation · FastAPI";
+  const railHomeTitle = profile.railHomeTitle || "Portfolio home";
+  const railAsideLabel = profile.railAsideLabel || "Home";
+
+  const shared = {
+    themeColor,
+    project,
+    profile,
+    logo1,
+    logo2,
+    heroTitle,
+    footerTitle,
+    footerSub,
+    railHomeTitle,
+    railAsideLabel,
+  };
+
+  const indexRendered = renderHtml(template, {
+    ...shared,
+    bodyHtml,
+    mainTopHtml: MAIN_TOP_FULL,
+    headExtraHtml: "",
+    pageTitle,
+    metaDescription,
+  });
 
   await fs.rm(outDir, { recursive: true, force: true });
   await fs.mkdir(outDir, { recursive: true });
-  await fs.writeFile(path.join(outDir, "index.html"), rendered, "utf8");
+  await fs.writeFile(path.join(outDir, "index.html"), indexRendered, "utf8");
 
-  for (const file of ["shell.css", "demo-content.css", "shell.js", "favicon.svg"]) {
+  if (demoBodyArg) {
+    let demoBody = await fs.readFile(path.resolve(demoBodyArg), "utf8");
+    demoBody = applyFeaturesUrls(
+      demoBody,
+      featuresPublicUrl,
+      featuresDocsUrl
+    );
+    demoBody = applyInteractivePlaceholders(demoBody, project);
+    const demoOriginRaw = project.demoFileApiOrigin;
+    const demoOrigin =
+      demoOriginRaw != null && String(demoOriginRaw).trim() !== ""
+        ? String(demoOriginRaw).trim().replace(/\/$/, "")
+        : "http://127.0.0.1:8000";
+    const headExtraDemo = `<meta name="fs-api-origin" content="${escapeHtml(demoOrigin)}">\n  <link rel="stylesheet" href="fs-portfolio-demo.css">`;
+    const demoPageTitle =
+      project.demoPageTitle || `${project.title} — interactive demo`;
+    const demoMeta =
+      project.demoMetaDescription ||
+      project.metaDescription ||
+      project.summary ||
+      "";
+    const demoRendered = renderHtml(template, {
+      ...shared,
+      bodyHtml: demoBody,
+      mainTopHtml: MAIN_TOP_DEMO,
+      headExtraHtml: headExtraDemo,
+      pageTitle: demoPageTitle,
+      metaDescription: demoMeta,
+    });
+    await fs.writeFile(
+      path.join(outDir, demoOutName),
+      demoRendered,
+      "utf8"
+    );
+    console.log(`Also wrote ${demoOutName} (interactive demo).`);
+  }
+
+  for (const file of [
+    "shell.css",
+    "demo-content.css",
+    "shell.js",
+    "favicon.svg",
+    "fs-portfolio-demo.css",
+  ]) {
     const src = path.join(ROOT, file);
     try {
       await fs.copyFile(src, path.join(outDir, file));

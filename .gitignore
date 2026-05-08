@@ -9,5 +9,4 @@ venv/
 # Generated pipeline output (reproducible via build_feature_table)
 artifacts/feature_table/*.csv
 
-# Generated recruiter shell output is committed for reproducible clones (see shell/README.md).
-# Commercial output: layout-shell-commercial/
+# Render outputs layout-shell/ and layout-shell-commercial/ are committed (see shell/README.md).

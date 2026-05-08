@@ -1,0 +1,109 @@
+<article class="fs-deck batch-page">
+  <header class="fs-hero">
+    <p class="fs-eyebrow">{{INTERACTIVE_DEMO_EYEBROW}}</p>
+    <h1 class="fs-title">Feature Store Mini</h1>
+    <p class="fs-subtitle">
+      {{INTERACTIVE_DEMO_LEAD}}
+    </p>
+    <ul class="fs-stats" aria-label="Project highlights">
+      <li><strong>8</strong><span>derived features</span></li>
+      <li><strong>1</strong><span>pipeline entrypoint</span></li>
+      <li><strong>4</strong><span>validation checks</span></li>
+    </ul>
+  </header>
+
+  <section class="fs-section" aria-labelledby="fs-fit-heading">
+    <h2 id="fs-fit-heading" class="fs-section-title">How it works</h2>
+    <ol class="fs-flow">
+      <li>
+        <span class="fs-flow-step" aria-hidden="true">1</span>
+        <span><strong>Definitions</strong> — each feature documents inputs, dtype, and meaning in one registry.</span>
+      </li>
+      <li>
+        <span class="fs-flow-step" aria-hidden="true">2</span>
+        <span><strong>Transform</strong> — a single build step produces <code>customer_id</code> + feature columns.</span>
+      </li>
+      <li>
+        <span class="fs-flow-step" aria-hidden="true">3</span>
+        <span><strong>Validate</strong> — duplicates, schema, and sanity checks before you trust the file.</span>
+      </li>
+    </ol>
+    <p class="fs-scope-note">{{INTERACTIVE_SCOPE_NOTE}}</p>
+  </section>
+
+  <section class="fs-section" aria-labelledby="fs-run-heading">
+    <h2 id="fs-run-heading" class="fs-section-title">Run the pipeline</h2>
+    <p class="fs-section-lead">Same logic two ways: upload here (FastAPI) or run locally from the repo root.</p>
+
+    <div class="fs-run-grid">
+      <div class="fs-run-card fs-run-card--live">
+        <h3 class="fs-run-card-title"><i class="fas fa-bolt" aria-hidden="true"></i> Live on this server</h3>
+        <p class="fs-run-card-lead">Upload a raw <code>.csv</code> (max 2&nbsp;MB), or run the repo&rsquo;s synthetic sample with one click.</p>
+        <form id="fs-form" class="fs-form-compact" aria-label="Run pipeline on CSV">
+          <div class="fs-form-row">
+            <label class="fs-file-label" for="fs-file">CSV file</label>
+            <input type="file" id="fs-file" name="file" accept=".csv,text/csv" class="fs-file-input">
+          </div>
+          <div class="fs-form-row fs-form-row--tight">
+            <label class="fs-check-label"><input type="checkbox" id="fs-strict" name="strict"> Strict mode — reject required columns that are 100% null</label>
+          </div>
+          <p class="fs-sample-hint">No file handy? One click loads the same <code>sample_raw.csv</code> as the CLI default (~250 synthetic rows).</p>
+          <div class="fs-form-actions fs-form-actions--split">
+            <button type="button" class="fs-btn fs-btn--ghost" id="fs-sample-btn">Try bundled sample</button>
+            <button type="submit" class="fs-btn fs-btn--primary" id="fs-submit">Run pipeline</button>
+          </div>
+          <p class="fs-muted">Schema: churn-style columns (e.g. tenure, Contract, services). <a href="{{FEATURES_DOCS_URL}}" target="_blank" rel="noopener noreferrer">OpenAPI</a></p>
+        </form>
+      </div>
+
+      <div class="fs-run-card fs-run-card--cli">
+        <h3 class="fs-run-card-title"><i class="fas fa-terminal" aria-hidden="true"></i> Local CLI</h3>
+        <p class="fs-run-card-lead">After <code>pip install -r requirements.txt</code>:</p>
+        <div class="fs-cli-block">
+          <pre class="fs-cli" id="fs-cli-default"><code>python -m src.pipeline.build_feature_table</code></pre>
+          <button type="button" class="fs-btn fs-btn--ghost" id="fs-copy-cli" aria-label="Copy CLI command">Copy</button>
+        </div>
+        <p class="fs-cli-meta">Default in: <code>data/raw/sample_raw.csv</code> → out: <code>artifacts/feature_table/customer_feature_table.csv</code></p>
+        <p class="fs-cli-meta">Stricter raw checks: <code>python -m src.pipeline.build_feature_table --strict</code></p>
+      </div>
+    </div>
+
+    <nav class="fs-quick-links" aria-label="API shortcuts">
+      <a href="/docs" class="fs-quick-link" target="_blank" rel="noopener noreferrer"><i class="fas fa-book" aria-hidden="true"></i> Swagger</a>
+      <a href="/features" class="fs-quick-link"><i class="fas fa-list-ul" aria-hidden="true"></i> Feature catalog</a>
+      <a href="/health" class="fs-quick-link"><i class="fas fa-heartbeat" aria-hidden="true"></i> Health</a>
+    </nav>
+  </section>
+</article>
+
+<div id="fs-error" class="fs-error fs-hidden" role="alert"></div>
+
+<div id="fs-result" class="fs-results fs-hidden">
+  <h2 class="fs-section-title fs-results-title">Results</h2>
+  <p class="fs-results-hint">JSON summaries below; preview is the first rows of the built feature table.</p>
+  <div class="fs-panel">
+    <h3 class="fs-panel-title">Meta</h3>
+    <pre id="fs-meta" class="fs-pre"></pre>
+  </div>
+  <div class="fs-panel">
+    <h3 class="fs-panel-title">Input summary</h3>
+    <pre id="fs-input" class="fs-pre"></pre>
+  </div>
+  <div class="fs-panel">
+    <h3 class="fs-panel-title">Output summary</h3>
+    <pre id="fs-output" class="fs-pre"></pre>
+  </div>
+  <div class="fs-panel">
+    <h3 class="fs-panel-title">Validation <span id="fs-val-badge"></span></h3>
+    <pre id="fs-validation-summary" class="fs-pre"></pre>
+  </div>
+  <div class="fs-panel">
+    <h3 class="fs-panel-title">Feature columns</h3>
+    <pre id="fs-feature-cols" class="fs-pre"></pre>
+  </div>
+  <div class="fs-panel">
+    <h3 class="fs-panel-title">Preview rows</h3>
+    <p class="fs-panel-caption" id="fs-preview-caption" aria-live="polite"></p>
+    <div id="fs-preview-table" class="fs-table-wrap" role="region" aria-label="Feature table preview"></div>
+  </div>
+</div>

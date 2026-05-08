@@ -8,7 +8,8 @@ from src.api.main import app
 
 _REPO_ROOT = Path(__file__).resolve().parents[1]
 _LAYOUT_SHELL_INDEX = _REPO_ROOT / "layout-shell" / "index.html"
-HAS_LAYOUT_SHELL_DEMO = _LAYOUT_SHELL_INDEX.is_file()
+_LAYOUT_SHELL_PORTFOLIO = _REPO_ROOT / "layout-shell" / "portfolio-demo.html"
+HAS_LAYOUT_SHELL_DEMO = _LAYOUT_SHELL_INDEX.is_file() or _LAYOUT_SHELL_PORTFOLIO.is_file()
 
 
 @pytest.fixture
@@ -24,13 +25,17 @@ def test_health(client):
 
 @pytest.mark.skipif(
     not HAS_LAYOUT_SHELL_DEMO,
-    reason="layout-shell/ not present (gitignored / optional UI)",
+    reason="layout-shell/ not present (optional UI)",
 )
 def test_root_serves_demo_html(client):
     r = client.get("/", follow_redirects=False)
     assert r.status_code == 302
-    assert r.headers.get("location") == "/layout-shell/index.html"
-    r2 = client.get("/layout-shell/index.html")
+    if _LAYOUT_SHELL_PORTFOLIO.is_file():
+        assert r.headers.get("location") == "/layout-shell/portfolio-demo.html"
+        r2 = client.get("/layout-shell/portfolio-demo.html")
+    else:
+        assert r.headers.get("location") == "/layout-shell/index.html"
+        r2 = client.get("/layout-shell/index.html")
     assert r2.status_code == 200
     assert "text/html" in r2.headers.get("content-type", "")
     body = r2.text
@@ -51,15 +56,23 @@ def test_demo_sample_raw_csv_served(client):
 
 @pytest.mark.skipif(
     not HAS_LAYOUT_SHELL_DEMO,
-    reason="layout-shell/ not present (gitignored / optional UI)",
+    reason="layout-shell/ not present (optional UI)",
 )
 def test_demo_page_renders(client):
-    r = client.get("/layout-shell/index.html")
-    assert r.status_code == 200
+    if _LAYOUT_SHELL_PORTFOLIO.is_file():
+        r = client.get("/layout-shell/portfolio-demo.html")
+        assert r.status_code == 200
+        body = r.text
+        assert "Feature Store Mini" in body
+        assert "demo/transform" in body
+        assert 'href="fs-portfolio-demo.css"' in body
+    else:
+        r = client.get("/layout-shell/index.html")
+        assert r.status_code == 200
+        body = r.text
+        assert "Feature Store Mini" in body
+        assert "/demo/transform" in body
     assert "text/html" in r.headers.get("content-type", "")
-    body = r.text
-    assert "Feature Store Mini" in body
-    assert "/demo/transform" in body
     assert "shellAssetBase" not in body
     assert 'href="shell.css"' in body
     assert 'href="demo-content.css"' in body

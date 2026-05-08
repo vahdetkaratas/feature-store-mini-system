@@ -30,6 +30,7 @@ _ROOT = Path(__file__).resolve().parent.parent.parent
 SAMPLE_RAW_CSV = _ROOT / "data" / "raw" / "sample_raw.csv"
 _LAYOUT_SHELL_DIR = _ROOT / "layout-shell"
 LAYOUT_SHELL_INDEX = _LAYOUT_SHELL_DIR / "index.html"
+LAYOUT_SHELL_PORTFOLIO_DEMO = _LAYOUT_SHELL_DIR / "portfolio-demo.html"
 
 app = FastAPI(
     title="Feature Store Mini — demo API",
@@ -49,7 +50,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Static UI only if the folder exists (layout-shell/ may be gitignored / deployed separately).
+# Static UI only if the folder exists (omit at deploy to fall back to /docs — see README).
 if _LAYOUT_SHELL_DIR.is_dir():
     app.mount(
         "/layout-shell",
@@ -60,9 +61,13 @@ if _LAYOUT_SHELL_DIR.is_dir():
 
 @app.get("/", response_model=None)
 def root_demo_page():
-    """Send browser to /layout-shell/ so directory-relative shell.css resolves; skip redirect if demo UI missing."""
-    if not LAYOUT_SHELL_INDEX.is_file():
+    """Prefer interactive portfolio demo when present; else generated shell index; else API docs."""
+    has_portfolio = LAYOUT_SHELL_PORTFOLIO_DEMO.is_file()
+    has_index = LAYOUT_SHELL_INDEX.is_file()
+    if not has_portfolio and not has_index:
         return RedirectResponse(url="/docs", status_code=302)
+    if has_portfolio:
+        return RedirectResponse(url="/layout-shell/portfolio-demo.html", status_code=302)
     return RedirectResponse(url="/layout-shell/index.html", status_code=302)
 
 

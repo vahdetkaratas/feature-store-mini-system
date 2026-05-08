@@ -1,0 +1,441 @@
+/**
+ * Portfolio interactive demo (fs-*) — uses tokens from shell.css :root
+ */
+.fs-demo-nav {
+  margin-bottom: 1rem;
+}
+.shell-content .fs-deck {
+  max-width: 52rem;
+}
+
+.fs-hero {
+  margin-bottom: 2rem;
+}
+.fs-eyebrow {
+  margin: 0 0 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--main-color);
+}
+.fs-title {
+  margin: 0 0 0.65rem;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--text-1);
+  letter-spacing: normal;
+  line-height: 1.2;
+}
+.fs-subtitle {
+  margin: 0 0 1.25rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-2);
+  max-width: 48ch;
+}
+.fs-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.fs-stats li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 5.5rem;
+}
+.fs-stats strong {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--text-1);
+  line-height: 1;
+}
+.fs-stats span {
+  font-size: 0.72rem;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.fs-section {
+  margin-bottom: 2rem;
+}
+.fs-section-title {
+  margin: 0 0 0.85rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-1);
+  letter-spacing: normal;
+}
+.fs-section-lead {
+  margin: 0 0 1rem;
+  font-size: 0.88rem;
+  color: var(--text-2);
+  line-height: 1.55;
+}
+
+.fs-flow {
+  margin: 0 0 1rem;
+  padding-left: 0;
+  list-style: none;
+  counter-reset: fsflow;
+}
+.fs-flow li {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  margin-bottom: 0.65rem;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--text-2);
+}
+.fs-flow-step {
+  flex-shrink: 0;
+  width: 1.65rem;
+  height: 1.65rem;
+  border-radius: 50%;
+  background: var(--card-a);
+  border: 1px solid var(--border-soft);
+  color: var(--main-color);
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.fs-scope-note {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--text-3);
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+}
+.fs-scope-note em {
+  color: var(--text-2);
+  font-style: italic;
+}
+
+.fs-run-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+.fs-run-card {
+  padding: 1.15rem 1.2rem;
+  background: linear-gradient(159deg, var(--card-a) 0%, var(--card-b) 100%);
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  box-shadow: var(--shadow-2);
+}
+.fs-run-card-title {
+  margin: 0 0 0.6rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-1);
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.fs-run-card-title i {
+  color: var(--main-color);
+  opacity: 0.9;
+}
+.fs-run-card-lead {
+  margin: 0 0 1rem;
+  font-size: 0.82rem;
+  color: var(--text-2);
+  line-height: 1.5;
+}
+.fs-run-card-lead code {
+  font-size: 0.85em;
+  color: var(--main-color);
+}
+
+.fs-form-compact .fs-form-row {
+  margin-bottom: 0.85rem;
+}
+.fs-form-row--tight {
+  margin-bottom: 0.5rem !important;
+}
+.fs-file-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-3);
+  margin-bottom: 0.35rem;
+}
+.fs-file-input {
+  font-size: 0.85rem;
+  color: var(--text-1);
+  max-width: 100%;
+}
+.fs-check-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--text-2);
+  cursor: pointer;
+}
+.fs-check-label input {
+  margin-top: 0.2rem;
+  flex-shrink: 0;
+}
+.fs-sample-hint {
+  margin: 0 0 0.85rem;
+  font-size: 0.78rem;
+  color: var(--text-3);
+  line-height: 1.45;
+}
+.fs-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 0.65rem;
+}
+.fs-form-actions--split {
+  justify-content: space-between;
+  align-items: center;
+}
+.fs-muted {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--text-3);
+  line-height: 1.45;
+}
+.fs-muted a {
+  color: var(--main-color);
+  font-weight: 600;
+  text-decoration: none;
+}
+.fs-muted a:hover {
+  text-decoration: underline;
+}
+
+.fs-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.fs-btn--primary {
+  background: var(--main-color);
+  color: rgb(25, 25, 35);
+  border-color: var(--main-color);
+}
+.fs-btn--primary:hover:not(:disabled) {
+  filter: brightness(1.06);
+}
+.fs-btn--ghost {
+  background: transparent;
+  color: var(--text-2);
+  border-color: var(--border-soft);
+}
+.fs-btn--ghost:hover:not(:disabled) {
+  color: var(--text-1);
+  border-color: var(--text-3);
+  background: rgba(255, 255, 255, 0.04);
+}
+.fs-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.fs-btn.is-loading {
+  position: relative;
+  color: transparent !important;
+}
+.fs-btn.is-loading::after {
+  content: "";
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgba(250, 250, 252, 0.25);
+  border-top-color: var(--main-color);
+  border-radius: 50%;
+  animation: fs-spin 0.7s linear infinite;
+}
+@keyframes fs-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.fs-cli-block {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 0.65rem;
+}
+.fs-cli {
+  flex: 1 1 12rem;
+  margin: 0;
+  padding: 0.65rem 0.85rem;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  overflow-x: auto;
+}
+.fs-cli code {
+  font-family: ui-monospace, "Courier New", monospace;
+  font-size: 0.78rem;
+  color: var(--text-1);
+  line-height: 1.45;
+}
+.fs-cli-meta {
+  margin: 0 0 0.45rem;
+  font-size: 0.75rem;
+  color: var(--text-3);
+  line-height: 1.45;
+}
+.fs-cli-meta code {
+  font-size: 0.85em;
+  color: var(--main-color);
+}
+
+.fs-quick-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  margin-top: 0.5rem;
+}
+.fs-quick-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-2);
+  text-decoration: none;
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.15);
+  transition: color 0.2s, border-color 0.2s;
+}
+.fs-quick-link:hover {
+  color: var(--main-color);
+  border-color: rgba(255, 193, 7, 0.35);
+}
+.fs-quick-link i {
+  opacity: 0.85;
+}
+
+.fs-hidden {
+  display: none !important;
+}
+.fs-error {
+  margin: 1.25rem 0;
+  padding: 0.85rem 1rem;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  color: #f08070;
+  background: rgba(240, 128, 112, 0.08);
+  border: 1px solid rgba(240, 128, 112, 0.35);
+  border-radius: 8px;
+  max-width: 52rem;
+}
+
+.fs-results {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-soft);
+  max-width: 52rem;
+}
+.fs-results-title {
+  margin-bottom: 0.35rem;
+}
+.fs-results-hint {
+  margin: 0 0 1rem;
+  font-size: 0.8rem;
+  color: var(--text-3);
+}
+
+.fs-panel {
+  margin-bottom: 1rem;
+  padding: 0.85rem 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+}
+.fs-panel-title {
+  margin: 0 0 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-1);
+}
+.fs-panel-caption {
+  margin: 0 0 0.5rem;
+  font-size: 0.76rem;
+  color: var(--text-3);
+}
+.fs-pre {
+  margin: 0;
+  font-family: ui-monospace, "Courier New", monospace;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: var(--text-2);
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 14rem;
+  overflow: auto;
+}
+
+.fs-table-wrap {
+  overflow-x: auto;
+  border-radius: 6px;
+  border: 1px solid var(--border-soft);
+}
+.fs-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: ui-monospace, "Courier New", monospace;
+  font-size: 0.72rem;
+}
+.fs-data-table th,
+.fs-data-table td {
+  padding: 0.4rem 0.55rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-soft);
+  color: var(--text-2);
+}
+.fs-data-table th {
+  color: var(--main-color);
+  font-weight: 600;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.fs-badge {
+  display: inline-block;
+  padding: 0.15rem 0.45rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-radius: 4px;
+}
+.fs-badge.ok {
+  background: rgba(80, 200, 120, 0.2);
+  color: #8fd9a8;
+}
+.fs-badge.fail {
+  background: rgba(240, 128, 112, 0.15);
+  color: #f0a090;
+}

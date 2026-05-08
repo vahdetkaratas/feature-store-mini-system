@@ -87,11 +87,21 @@
       "eyebrow": "Proof of work · batch ML data discipline",
       "summary": "Production-minded pattern: one registry for feature meaning, one build path, structured validation, and the same transforms whether you run a CLI job or POST a CSV to FastAPI.",
       "heroNote": "Same code path in CLI and API; errors use stable codes (e.g. missing raw columns). OpenAPI documents the live service.",
+      "demoPageTitle": "Feature Store Mini — interactive demo",
+      "demoMetaDescription": "Upload a churn-style CSV or run the bundled sample via POST /demo/transform — same engine as the CLI.",
+      "interactiveDemoEyebrow": "Portfolio · interactive pipeline demo",
+      "interactiveDemoLead": "Churn-style raw CSV in → one deterministic build → validated feature table out. Definitions and checks live in code so batch jobs, notebooks, and APIs stay aligned.",
+      "interactiveDemoScopeNote": "Deliberately small: not Feast or Tecton — a reusable pattern for consistent offline features and a clear proof-of-work story.",
       "projectLinks": [
         {
           "label": "GitHub",
           "href": "https://github.com/vahdetkaratas/feature-store-mini-system",
           "external": true
+        },
+        {
+          "label": "Interactive demo",
+          "href": "portfolio-demo.html",
+          "external": false
         },
         {
           "label": "Live service",
@@ -133,6 +143,11 @@
       "eyebrow": "Pilot capability · repeatable feature prep",
       "summary": "Turn an agreed raw export into a model-ready feature table with named transforms and checks—useful for pilots where spreadsheets and ad-hoc scripts drift apart.",
       "heroNote": "Scoped pilot pattern—not SaaS or a full data platform. OpenAPI supports technical diligence; the outcome is a repeatable table, not novelty UI.",
+      "demoPageTitle": "Feature Store Mini — try the pipeline",
+      "demoMetaDescription": "Pilot CSV → feature table on the live API; same transforms as in-repo batch and HTTP contracts.",
+      "interactiveDemoEyebrow": "Pilot · try the pipeline in the browser",
+      "interactiveDemoLead": "Agreed operational extract in → model-ready feature table out. One build path you can schedule or call over HTTP — useful before bigger platform commitments.",
+      "interactiveDemoScopeNote": "Not enterprise Feast/Tecton-scale software or a consumer SaaS — a pilot-sized pattern with honest boundaries.",
       "pageTitle": "Feature Store Mini — pilot feature-prep pattern",
       "metaDescription": "Pilot-sized pattern: turn agreed operational exports into validated, model-ready feature tables with one build path—honest scope, no enterprise feature-store claims.",
       "stack": [
@@ -152,6 +167,11 @@
           "label": "Open workflow demo",
           "href": "https://features.vahdetlabs.com/",
           "external": true
+        },
+        {
+          "label": "Interactive demo",
+          "href": "portfolio-demo.html",
+          "external": false
         },
         {
           "label": "Discuss a use case",
@@ -183,6 +203,38 @@
         {
           "label": "Vahdetlabs",
           "href": "https://vahdetlabs.com/",
+          "external": true
+        }
+      ],
+      "relatedMlSystems": [
+        {
+          "label": "Portfolio",
+          "href": "https://vahdetkaratas.com/portfolio",
+          "external": true
+        },
+        {
+          "label": "Batch scoring",
+          "href": "https://batch-scoring.vahdetlabs.com/",
+          "external": true
+        },
+        {
+          "label": "Feature store",
+          "href": "https://feature-store.vahdetlabs.com/",
+          "external": true
+        },
+        {
+          "label": "Vahdetlabs",
+          "href": "https://vahdetlabs.com/",
+          "external": true
+        },
+        {
+          "label": "Monitoring & data quality",
+          "href": "https://monitoring.vahdetlabs.com/",
+          "external": true
+        },
+        {
+          "label": "Customer churn prediction",
+          "href": "https://churn.vahdetlabs.com/",
           "external": true
         }
       ]

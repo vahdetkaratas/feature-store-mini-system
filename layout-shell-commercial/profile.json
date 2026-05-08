@@ -19,14 +19,24 @@
   "railAsideLabel": "VahdetLabs",
   "socialLinks": [
     {
+      "label": "Portfolio",
+      "href": "https://vahdetkaratas.com/portfolio",
+      "iconClass": "fas fa-briefcase"
+    },
+    {
       "label": "GitHub",
       "href": "https://github.com/vahdetkaratas",
       "iconClass": "fab fa-github"
     },
     {
-      "label": "LinkedIn",
-      "href": "https://linkedin.com/in/vahdetkaratas",
-      "iconClass": "fab fa-linkedin-in"
+      "label": "Vahdetlabs",
+      "href": "https://vahdetlabs.com/",
+      "iconClass": "fas fa-globe"
+    },
+    {
+      "label": "Contact",
+      "href": "https://vahdetlabs.com/contact",
+      "iconClass": "far fa-envelope"
     }
   ]
 }

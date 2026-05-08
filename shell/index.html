@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
   <link rel="stylesheet" href="shell.css">
   <link rel="stylesheet" href="demo-content.css">
+  {{HEAD_EXTRA_HTML}}
 </head>
 <body>
   <div class="shell-outer">
@@ -90,20 +91,7 @@
                   </header>
 
                   <div id="main">
-                    <section class="hero">
-                      <span class="hero-badge">{{PROJECT_EYEBROW}}</span>
-                      <h1>{{PROJECT_HERO_TITLE}}</h1>
-                      <p class="hero-lead">{{PROJECT_SUMMARY}}</p>
-                      <div class="hero-cta">
-                        {{HERO_CTA_BUTTONS}}
-                      </div>
-                      {{HERO_NOTE_HTML}}
-                      <div class="metrics" aria-label="Project facts">
-                        {{METRICS_ITEMS}}
-                      </div>
-                    </section>
-
-                    {{LIMITATIONS_SECTION_HTML}}
+                    {{MAIN_TOP_HTML}}
 
                     {{CONTENT_HTML}}
                   </div>
