@@ -198,10 +198,12 @@ function renderHtml(
     footerSub,
     railHomeTitle,
     railAsideLabel,
+    assetVersionQuery,
   }
 ) {
   const headerNav = navLinkItems ?? project.projectLinks ?? [];
   return template
+    .replaceAll("{{ASSET_VERSION_QUERY}}", escapeHtml(assetVersionQuery || ""))
     .replaceAll("{{HEAD_EXTRA_HTML}}", headExtraHtml)
     .replaceAll("{{HEADER_NAV_EXTRA_HTML}}", headerNavExtraHtml || "")
     .replaceAll("{{MAIN_TOP_HTML}}", mainTopHtml)
@@ -305,6 +307,11 @@ async function main() {
     "Batch pipeline · definitions · validation · FastAPI";
   const railHomeTitle = profile.railHomeTitle || "Portfolio home";
   const railAsideLabel = profile.railAsideLabel || "Home";
+  const buildId =
+    args["build-id"] ||
+    process.env.BUILD_ID ||
+    new Date().toISOString().replace(/[-:.TZ]/g, "");
+  const assetVersionQuery = `?v=${encodeURIComponent(buildId)}`;
 
   const shared = {
     themeColor,
@@ -317,6 +324,7 @@ async function main() {
     footerSub,
     railHomeTitle,
     railAsideLabel,
+    assetVersionQuery,
   };
 
   const indexRendered = renderHtml(template, {
@@ -347,7 +355,7 @@ async function main() {
       demoOriginRaw != null && String(demoOriginRaw).trim() !== ""
         ? String(demoOriginRaw).trim().replace(/\/$/, "")
         : demoOriginDefault;
-    const headExtraDemo = `<meta name="fs-api-origin" content="${escapeHtml(demoOrigin)}">\n  <link rel="stylesheet" href="fs-portfolio-demo.css">`;
+    const headExtraDemo = `<meta name="fs-api-origin" content="${escapeHtml(demoOrigin)}">\n  <link rel="stylesheet" href="fs-portfolio-demo.css${escapeHtml(assetVersionQuery)}">`;
     const demoPageTitle =
       project.demoPageTitle || `${project.title} — interactive demo`;
     const demoMeta =
